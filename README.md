@@ -48,7 +48,7 @@ Your Cloudflare Worker is live at:
 ### Health
 - `GET /health` - Health check endpoint
 
-## 📝 Example Usage
+##  Example Usage
 
 ### Create a Contact
 ```bash
@@ -69,7 +69,7 @@ curl -X POST https://adcs-worker.adcs-api-9482.workers.dev/api/files/upload \
 curl https://adcs-worker.adcs-api-9482.workers.dev/api/contacts
 ```
 
-## 🛠️ Local Development
+##  Local Development
 
 ```bash
 # Run locally
@@ -82,7 +82,7 @@ wrangler tail
 wrangler d1 execute ADCS_DB --command "SELECT * FROM contacts"
 ```
 
-## 📦 Optional: OpenRouter API Key
+##  Optional: OpenRouter API Key
 
 To enable AI features, set your OpenRouter API key:
 
@@ -90,7 +90,7 @@ To enable AI features, set your OpenRouter API key:
 wrangler secret put OPENROUTER_API_KEY
 ```
 
-## 🔄 Redeployment
+##  Redeployment
 
 To redeploy after making changes:
 
@@ -98,7 +98,7 @@ To redeploy after making changes:
 wrangler deploy
 ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 /Users/agentq/Documents/movo/
@@ -111,7 +111,7 @@ wrangler deploy
 └── README.md                # This file
 ```
 
-## 🌐 Dashboard Links
+##  Dashboard Links
 
 - [Cloudflare Dashboard](https://dash.cloudflare.com/429a853a6dd11c1a13e857db35424943)
 - [Workers Dashboard](https://dash.cloudflare.com/429a853a6dd11c1a13e857db35424943/workers)
