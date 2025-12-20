@@ -241,21 +241,6 @@
                         </svg>
                         Logout
                     </button>
-                        <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="5"></circle>
-                            <line x1="12" y1="1" x2="12" y2="3"></line>
-                            <line x1="12" y1="21" x2="12" y2="23"></line>
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                            <line x1="1" y1="12" x2="3" y2="12"></line>
-                            <line x1="21" y1="12" x2="23" y2="12"></line>
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                        </svg>
-                        <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                        </svg>
-                    </button>
                 </div>
             </div>
         </header>
@@ -410,14 +395,14 @@
                                 <div id="share-dropdown" class="absolute right-6 mt-10 hidden bg-white dark:bg-dark-300 rounded-lg shadow-lg p-4 w-80 z-20 border border-gray-200 dark:border-dark-100">
                                     <h3 class="font-medium mb-2">Share this contact</h3>
                                     <div class="mb-3">
-                                        <input type="text" id="share-link" readonly="" class="w-full px-3 py-2 text-sm rounded-md border border-gray-300 dark:border-dark-200 bg-gray-50 dark:bg-dark-400 focus:outline-none focus:ring-1 focus:ring-primary-400" value="https://contacts.example.com/share/abc123">
+                                        <input type="text" id="share-link" readonly="" class="w-full px-3 py-2 text-sm rounded-md border border-gray-300 dark:border-dark-200 bg-gray-50 dark:bg-dark-400 focus:outline-none focus:ring-1 focus:ring-primary-400" placeholder="Click 'Generate Link' to create a shareable link">
                                     </div>
                                     <div class="flex justify-between items-center">
                                         <div class="text-xs text-gray-500 dark:text-gray-400">
                                             <span id="share-status">Not shared</span>
                                         </div>
                                         <div class="flex space-x-2">
-                                            <button id="copy-share-link" class="px-3 py-1.5 text-xs rounded-md bg-gray-100 dark:bg-dark-200 hover:bg-gray-200 dark:hover:bg-dark-100 transition-colors">Copy Link</button>
+                                            <button id="copy-share-link" disabled class="px-3 py-1.5 text-xs rounded-md bg-gray-100 dark:bg-dark-200 hover:bg-gray-200 dark:hover:bg-dark-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Copy Link</button>
                                             <button id="generate-share-link" class="px-3 py-1.5 text-xs rounded-md bg-primary-500 text-white hover:bg-primary-600 transition-colors">Generate Link</button>
                                         </div>
                                     </div>
@@ -1126,8 +1111,8 @@ wrangler publish</pre>
                 return sessionId;
             }
             
-            // Logout function
-            async function logout() {
+            // Logout function (make it global so onclick can access it)
+            window.logout = async function() {
                 const sessionId = localStorage.getItem('sessionId');
                 if (sessionId) {
                     try {
@@ -1258,29 +1243,229 @@ wrangler publish</pre>
             }
             
             // Download file from Cloudflare R2
-            async function downloadFile(fileKey, fileName) {
+            async function previewFile(fileKey, fileName) {
                 try {
-                    showNotification('Downloading file from Cloudflare R2...');
-                    const response = await fetch(`${API_URL}/api/files/${fileKey}`);
+                    showNotification('Loading file preview...');
+                    const response = await fetch(`${API_URL}/api/files/${fileKey}`, {
+                        headers: {
+                            'Authorization': `Bearer ${SESSION_ID}`
+                        }
+                    });
                     
                     if (!response.ok) {
-                        throw new Error('File not found');
+                        const errorText = await response.text();
+                        throw new Error(errorText || 'File not found');
                     }
                     
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
-                    showNotification('File downloaded successfully');
+                    
+                    // Determine file type
+                    const extension = fileName.split('.').pop().toLowerCase();
+                    const fileSize = (blob.size / 1024).toFixed(2) + ' KB';
+                    
+                    // Get modal elements
+                    const modal = document.getElementById('filePreviewModal');
+                    const previewContent = document.getElementById('previewContent');
+                    const previewFileName = document.getElementById('previewFileName');
+                    const previewFileInfo = document.getElementById('previewFileInfo');
+                    const previewFileIcon = document.getElementById('previewFileIcon');
+                    const downloadBtn = document.getElementById('downloadFileBtn');
+                    const closeBtn = document.getElementById('closePreviewBtn');
+                    
+                    // Set file info
+                    previewFileName.textContent = fileName;
+                    previewFileInfo.textContent = `${fileSize} • ${extension.toUpperCase()}`;
+                    
+                    // Set icon based on file type
+                    let iconHTML = '';
+                    if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(extension)) {
+                        iconHTML = `<div class="bg-green-100 dark:bg-green-900/30 rounded-lg p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>`;
+                    } else if (extension === 'pdf') {
+                        iconHTML = `<div class="bg-red-100 dark:bg-red-900/30 rounded-lg p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                        </div>`;
+                    } else if (['mp3', 'wav', 'ogg', 'm4a', 'aac'].includes(extension)) {
+                        iconHTML = `<div class="bg-purple-100 dark:bg-purple-900/30 rounded-lg p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                            </svg>
+                        </div>`;
+                    } else if (['eml', 'msg'].includes(extension)) {
+                        iconHTML = `<div class="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>`;
+                    } else {
+                        iconHTML = `<div class="bg-gray-100 dark:bg-gray-900/30 rounded-lg p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>`;
+                    }
+                    previewFileIcon.innerHTML = iconHTML;
+                    
+                    // Generate preview based on file type
+                    let previewHTML = '';
+                    
+                    if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(extension)) {
+                        // Image preview
+                        previewHTML = `
+                            <div class="flex items-center justify-center min-h-[400px] bg-gray-50 dark:bg-dark-300 rounded-lg">
+                                <img src="${url}" alt="${fileName}" class="max-w-full max-h-[70vh] object-contain rounded-lg shadow-lg" />
+                            </div>
+                        `;
+                    } else if (extension === 'pdf') {
+                        // PDF preview using iframe
+                        previewHTML = `
+                            <div class="bg-gray-50 dark:bg-dark-300 rounded-lg" style="height: 70vh;">
+                                <iframe src="${url}" class="w-full h-full rounded-lg" frameborder="0"></iframe>
+                            </div>
+                        `;
+                    } else if (['mp3', 'wav', 'ogg', 'm4a', 'aac'].includes(extension)) {
+                        // Audio preview
+                        previewHTML = `
+                            <div class="flex flex-col items-center justify-center min-h-[400px] bg-gray-50 dark:bg-dark-300 rounded-lg p-8">
+                                <div class="mb-8">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                                    </svg>
+                                </div>
+                                <audio controls class="w-full max-w-2xl">
+                                    <source src="${url}" type="${blob.type}">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                        `;
+                    } else if (['eml', 'msg'].includes(extension)) {
+                        // Email preview - parse and display
+                        const text = await blob.text();
+                        const emailData = parseEmail(text);
+                        previewHTML = `
+                            <div class="bg-white dark:bg-dark-300 rounded-lg border border-gray-200 dark:border-dark-200 overflow-hidden">
+                                <div class="border-b border-gray-200 dark:border-dark-200 p-6 bg-gray-50 dark:bg-dark-200">
+                                    <div class="space-y-3">
+                                        <div class="flex items-start">
+                                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400 w-20">From:</span>
+                                            <span class="text-sm text-gray-900 dark:text-gray-100 flex-1">${emailData.from || 'Unknown'}</span>
+                                        </div>
+                                        <div class="flex items-start">
+                                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400 w-20">To:</span>
+                                            <span class="text-sm text-gray-900 dark:text-gray-100 flex-1">${emailData.to || 'Unknown'}</span>
+                                        </div>
+                                        ${emailData.cc ? `
+                                        <div class="flex items-start">
+                                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400 w-20">CC:</span>
+                                            <span class="text-sm text-gray-900 dark:text-gray-100 flex-1">${emailData.cc}</span>
+                                        </div>
+                                        ` : ''}
+                                        <div class="flex items-start">
+                                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400 w-20">Subject:</span>
+                                            <span class="text-sm font-semibold text-gray-900 dark:text-gray-100 flex-1">${emailData.subject || '(No Subject)'}</span>
+                                        </div>
+                                        <div class="flex items-start">
+                                            <span class="text-sm font-medium text-gray-500 dark:text-gray-400 w-20">Date:</span>
+                                            <span class="text-sm text-gray-900 dark:text-gray-100 flex-1">${emailData.date || 'Unknown'}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="prose dark:prose-invert max-w-none">
+                                        ${emailData.body || '<p class="text-gray-500 italic">No content available</p>'}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // Generic file - show download option
+                        previewHTML = `
+                            <div class="flex flex-col items-center justify-center min-h-[400px] bg-gray-50 dark:bg-dark-300 rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <p class="text-gray-600 dark:text-gray-400 text-lg mb-2">Preview not available</p>
+                                <p class="text-gray-500 dark:text-gray-500 text-sm">Click download to save this file</p>
+                            </div>
+                        `;
+                    }
+                    
+                    previewContent.innerHTML = previewHTML;
+                    
+                    // Setup download button
+                    downloadBtn.onclick = () => {
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = fileName;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        showNotification('File downloaded successfully');
+                    };
+                    
+                    // Setup close button
+                    const closeModal = () => {
+                        modal.classList.add('hidden');
+                        window.URL.revokeObjectURL(url);
+                    };
+                    
+                    closeBtn.onclick = closeModal;
+                    modal.onclick = (e) => {
+                        if (e.target === modal) closeModal();
+                    };
+                    
+                    // Show modal
+                    modal.classList.remove('hidden');
+                    showNotification('Preview loaded');
+                    
                 } catch (error) {
-                    console.error('Failed to download file:', error);
-                    showNotification('Failed to download file: ' + error.message, 5000);
+                    console.error('Failed to preview file:', error);
+                    showNotification('Failed to load file preview: ' + error.message, 5000);
                 }
+            }
+            
+            // Parse email content (simple parser for .eml files)
+            function parseEmail(emailText) {
+                const headers = {};
+                const lines = emailText.split('\n');
+                let bodyStart = 0;
+                
+                // Parse headers
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    if (line.trim() === '') {
+                        bodyStart = i + 1;
+                        break;
+                    }
+                    const match = line.match(/^([^:]+):\s*(.+)$/);
+                    if (match) {
+                        const key = match[1].toLowerCase();
+                        headers[key] = match[2].trim();
+                    }
+                }
+                
+                // Get body
+                const body = lines.slice(bodyStart).join('\n').trim();
+                
+                return {
+                    from: headers['from'] || '',
+                    to: headers['to'] || '',
+                    cc: headers['cc'] || '',
+                    subject: headers['subject'] || '',
+                    date: headers['date'] || '',
+                    body: body ? `<pre class="whitespace-pre-wrap text-sm">${body}</pre>` : ''
+                };
+            }
+            
+            // Keep downloadFile function for backward compatibility
+            async function downloadFile(fileKey, fileName) {
+                await previewFile(fileKey, fileName);
             }
             
             // Sample contact data
@@ -1379,6 +1564,116 @@ wrangler publish</pre>
                 
                 // Check if there's a shared contact in the URL
                 const urlParams = new URLSearchParams(window.location.search);
+                const sharedToken = urlParams.get('shared');
+                if (sharedToken) {
+                    // Load and display shared contact
+                    try {
+                        const response = await fetch(`${API_URL}/api/shared/${sharedToken}`);
+                        if (response.ok) {
+                            const sharedContact = await response.json();
+                            
+                            // Check if this contact already exists in user's contacts
+                            const existingContact = contacts.find(c => c.Email.toLowerCase() === sharedContact.email.toLowerCase());
+                            
+                            if (existingContact) {
+                                showNotification('This contact is already in your contact list');
+                                // Highlight the existing contact
+                                const contactEl = document.querySelector(`[data-id="${existingContact.id}"]`);
+                                if (contactEl) {
+                                    contactEl.click();
+                                }
+                            } else {
+                                // Ask user if they want to add this contact
+                                const fileCount = sharedContact.files ? sharedContact.files.length : 0;
+                                const fileText = fileCount > 0 ? `\n\nThis contact has ${fileCount} file(s) attached.` : '';
+                                const addContact = confirm(`Would you like to add this shared contact to your list?\n\nName: ${sharedContact.name || 'N/A'}\nEmail: ${sharedContact.email}${fileText}\n\nClick OK to add to your contacts.`);
+                                
+                                if (addContact) {
+                                    // Add the contact to user's account
+                                    try {
+                                        const result = await saveContactToAPI({
+                                            Email: sharedContact.email,
+                                            Name: sharedContact.name || '',
+                                            'Last Contacted on': new Date().toLocaleString('en-US', {
+                                                month: 'short',
+                                                day: 'numeric',
+                                                year: 'numeric',
+                                                hour: 'numeric',
+                                                minute: 'numeric',
+                                                second: 'numeric',
+                                                hour12: false
+                                            })
+                                        });
+                                        
+                                        // Copy files if they exist
+                                        if (sharedContact.files && sharedContact.files.length > 0) {
+                                            const newContactId = result.id;
+                                            
+                                            for (const file of sharedContact.files) {
+                                                try {
+                                                    // Download the file from the public shared endpoint
+                                                    const fileResponse = await fetch(`${API_URL}/api/shared/${sharedToken}/file/${encodeURIComponent(file.key)}`);
+                                                    
+                                                    if (fileResponse.ok) {
+                                                        const fileBlob = await fileResponse.blob();
+                                                        const fileObj = new File([fileBlob], file.name, { type: file.mime });
+                                                        
+                                                        // Re-upload file for the new contact
+                                                        const formData = new FormData();
+                                                        formData.append('file', fileObj);
+                                                        formData.append('contactId', newContactId);
+                                                        
+                                                        await fetch(`${API_URL}/api/files/upload`, {
+                                                            method: 'POST',
+                                                            headers: { 'Authorization': `Bearer ${SESSION_ID}` },
+                                                            body: formData
+                                                        });
+                                                    }
+                                                } catch (fileError) {
+                                                    console.error('Failed to copy file:', file.name, fileError);
+                                                }
+                                            }
+                                            
+                                            showNotification(`Shared contact added with ${sharedContact.files.length} file(s)!`);
+                                        } else {
+                                            showNotification('Shared contact added to your list!');
+                                        }
+                                        
+                                        // Reload contacts
+                                        contacts = await loadContactsFromAPI();
+                                        renderContacts(contacts);
+                                        document.getElementById('contact-count').textContent = `${contacts.length} contacts`;
+                                        
+                                        // Select the new contact
+                                        const newContact = contacts.find(c => c.Email.toLowerCase() === sharedContact.email.toLowerCase());
+                                        if (newContact) {
+                                            setTimeout(() => {
+                                                const contactEl = document.querySelector(`[data-id="${newContact.id}"]`);
+                                                if (contactEl) {
+                                                    contactEl.click();
+                                                }
+                                            }, 100);
+                                        }
+                                        
+                                        // Remove the shared parameter from URL
+                                        const newUrl = new URL(window.location.href);
+                                        newUrl.searchParams.delete('shared');
+                                        window.history.replaceState({}, '', newUrl);
+                                    } catch (error) {
+                                        console.error('Failed to add shared contact:', error);
+                                        showNotification('Failed to add contact. It may already exist.');
+                                    }
+                                }
+                            }
+                        } else {
+                            showNotification('Shared contact not found or expired');
+                        }
+                    } catch (error) {
+                        console.error('Failed to load shared contact:', error);
+                        showNotification('Failed to load shared contact');
+                    }
+                }
+                
                 const sharedContactId = urlParams.get('contact');
                 if (sharedContactId) {
                     const contact = contacts.find(c => c.id === sharedContactId);
@@ -1958,7 +2253,7 @@ wrangler publish</pre>
                         btn.addEventListener('click', function() {
                             const fileKey = this.dataset.fileKey;
                             const fileName = this.dataset.fileName;
-                            downloadFile(fileKey, fileName);
+                            previewFile(fileKey, fileName);
                         });
                     });
                 }, 0);
@@ -2203,6 +2498,10 @@ wrangler publish</pre>
                             // Refresh details view with new file
                             showContactDetails(contact);
                             
+                            // Reload contacts to update file count badges in sidebar
+                            contacts = await loadContactsFromAPI();
+                            renderContacts(contacts);
+                            
                             // If AI analysis was requested for PDF
                             if (useAI && fileType === 'pdf') {
                                 simulateAIAnalysis(newFile, contact);
@@ -2290,37 +2589,74 @@ wrangler publish</pre>
                 shareDropdown.classList.toggle('hidden');
             });
             
-            generateShareLink.addEventListener('click', function() {
+            generateShareLink.addEventListener('click', async function() {
                 const shareLink = document.getElementById('share-link');
+                const copyBtn = document.getElementById('copy-share-link');
                 const activeContactEl = document.querySelector('#contacts-list > div.bg-gray-100, #contacts-list > div.dark\\:bg-dark-300');
                 
                 if (activeContactEl) {
-                    const contactId = activeContactEl.dataset.id;
-                    const baseUrl = window.location.origin;
-                    const shareUrl = `${baseUrl}?contact=${contactId}`;
-                    shareLink.value = shareUrl;
-                    document.getElementById('share-status').textContent = 'Shared • Link active';
-                    showNotification('Share link generated');
+                    try {
+                        generateShareLink.disabled = true;
+                        generateShareLink.textContent = 'Generating...';
+                        
+                        const contactId = activeContactEl.dataset.id.replace('contact-', '');
+                        
+                        // Call API to create share link
+                        const response = await apiRequest(`/api/contacts/${contactId}/share`, {
+                            method: 'POST'
+                        });
+                        
+                        // Generate the full share URL
+                        const baseUrl = window.location.origin + window.location.pathname;
+                        const shareUrl = `${baseUrl}?shared=${response.shareToken}`;
+                        shareLink.value = shareUrl;
+                        document.getElementById('share-status').textContent = 'Shared • Link active';
+                        
+                        // Enable copy button
+                        copyBtn.disabled = false;
+                        
+                        showNotification('Share link generated! Click "Copy Link" to copy.');
+                    } catch (error) {
+                        console.error('Failed to generate share link:', error);
+                        showNotification('Failed to generate share link');
+                    } finally {
+                        generateShareLink.disabled = false;
+                        generateShareLink.textContent = 'Generate Link';
+                    }
                 }
             });
             
-            copyShareLink.addEventListener('click', function() {
+            copyShareLink.addEventListener('click', async function() {
                 const shareLink = document.getElementById('share-link');
+                const copyBtn = document.getElementById('copy-share-link');
+                
+                if (!shareLink.value || shareLink.value === '') {
+                    showNotification('Please generate a link first');
+                    return;
+                }
+                
                 shareLink.select();
                 
-                // Use modern clipboard API if available
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(shareLink.value).then(() => {
-                        showNotification('Link copied to clipboard');
-                    }).catch(() => {
-                        // Fallback to execCommand
+                try {
+                    // Use modern clipboard API
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        await navigator.clipboard.writeText(shareLink.value);
+                        copyBtn.textContent = 'Copied!';
+                        copyBtn.classList.add('bg-green-500', 'text-white');
+                        showNotification('✓ Link copied to clipboard!');
+                        
+                        setTimeout(() => {
+                            copyBtn.textContent = 'Copy Link';
+                            copyBtn.classList.remove('bg-green-500', 'text-white');
+                        }, 2000);
+                    } else {
+                        // Fallback for older browsers
                         document.execCommand('copy');
                         showNotification('Link copied to clipboard');
-                    });
-                } else {
-                    // Fallback for older browsers
-                    document.execCommand('copy');
-                    showNotification('Link copied to clipboard');
+                    }
+                } catch (error) {
+                    console.error('Failed to copy:', error);
+                    showNotification('Failed to copy link');
                 }
             });
             
@@ -2958,6 +3294,35 @@ wrangler publish</pre>
         });
     </script>
 
-
+    <!-- File Preview Modal -->
+    <div id="filePreviewModal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-dark-400 rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-dark-300">
+                <div class="flex items-center space-x-3">
+                    <div id="previewFileIcon" class="flex-shrink-0"></div>
+                    <div>
+                        <h3 id="previewFileName" class="font-semibold text-lg"></h3>
+                        <p id="previewFileInfo" class="text-sm text-gray-500 dark:text-gray-400"></p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button id="downloadFileBtn" class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg text-sm font-medium transition-colors">
+                        Download
+                    </button>
+                    <button id="closePreviewBtn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Modal Content -->
+            <div id="previewContent" class="flex-1 overflow-auto p-4">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
 
 </body></html>
