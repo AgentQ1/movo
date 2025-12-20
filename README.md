@@ -118,7 +118,7 @@ wrangler deploy
 - [R2 Dashboard](https://dash.cloudflare.com/429a853a6dd11c1a13e857db35424943/r2)
 - [D1 Dashboard](https://dash.cloudflare.com/429a853a6dd11c1a13e857db35424943/d1)
 
-## 🎯 Next Steps
+##  Next Steps
 
 1. Update your HTML frontend to point to the worker URL
 2. Test the API endpoints
