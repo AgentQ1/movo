@@ -1,20 +1,20 @@
-# ADCS - Contact Database & File Storage
+# Movo - Contact Database & File Storage
 
-## 🎉 Successfully Deployed!
+##  Successfully Deployed!
 
 Your Cloudflare Worker is live at:
 **https://adcs-worker.adcs-api-9482.workers.dev**
 
-## ✅ Completed Setup
+##  Completed Setup
 
-- ✅ Wrangler CLI installed
-- ✅ Authenticated with Cloudflare
-- ✅ R2 bucket `central-files` created
-- ✅ D1 database `ADCS_DB` created with schema
-- ✅ KV namespace created for file aliases
-- ✅ Worker deployed with all bindings
+-  Wrangler CLI installed
+-  Authenticated with Cloudflare
+-  R2 bucket `central-files` created
+-  D1 database `ADCS_DB` created with schema
+-  KV namespace created for file aliases
+-  Worker deployed with all bindings
 
-## 📊 Resources Created
+##  Resources Created
 
 ### D1 Database: ADCS_DB
 - **Database ID**: `bd26283b-40be-4560-bdf8-3dc2110cdc39`
@@ -31,7 +31,7 @@ Your Cloudflare Worker is live at:
 - **ID**: `9cdf7de635d34efb803d916d86d38369`
 - Fast alias lookups for files
 
-## 🔌 API Endpoints
+##  API Endpoints
 
 ### Contacts
 - `GET /api/contacts` - List all contacts
