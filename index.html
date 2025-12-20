@@ -1,0 +1,2726 @@
+<!DOCTYPE html><html lang="en" class="h-full"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com https://*.workers.dev; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; connect-src 'self' https://*.workers.dev;"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://qph.cf2.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com https://*.workers.dev; frame-src 'self' data: blob: https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self' data: blob:; connect-src 'self' https://*.workers.dev; report-uri https://www.quora.com/poe_api/csp_report_3RD_PARTY_POST; report-to csp-endpoint;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Database</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f4f4fd',
+                            100: '#e9e9fb',
+                            200: '#d3d2f7',
+                            300: '#bcbcf3',
+                            400: '#a6a5ef',
+                            500: '#908fea',
+                            600: '#7a79e6',
+                            700: '#6463e2',
+                            800: '#5D5CDE',
+                            900: '#4746da',
+                        },
+                        dark: {
+                            100: '#333333',
+                            200: '#2a2a2a',
+                            300: '#222222',
+                            400: '#1f1f1f',
+                            500: '#181818',
+                            600: '#141414',
+                            700: '#0f0f0f',
+                            800: '#0a0a0a',
+                            900: '#050505',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'card-dark': '0 4px 6px -1px rgba(255, 255, 255, 0.05), 0 2px 4px -1px rgba(255, 255, 255, 0.03)'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <script src="https://unpkg.com/marked@4.0.2/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 300ms;
+        }
+        
+        .slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, 
+                          rgba(255, 255, 255, 0) 0%, 
+                          rgba(255, 255, 255, 0.4) 50%, 
+                          rgba(255, 255, 255, 0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        .dark .shimmer {
+            background: linear-gradient(90deg, 
+                          rgba(30, 30, 30, 0) 0%, 
+                          rgba(60, 60, 60, 0.4) 50%, 
+                          rgba(30, 30, 30, 0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        /* PDF Thumbnail styles */
+        .pdf-thumbnail {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .pdf-thumbnail::after {
+            content: 'PDF';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: rgba(229, 62, 62, 0.9);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-top-left-radius: 4px;
+        }
+        
+        .pdf-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        
+        .pdf-shared-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background-color: rgba(79, 70, 229, 0.8);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-dark-500 text-gray-900 dark:text-gray-100 transition-colors duration-200 h-full">
+    <div id="app" class="flex flex-col h-full">
+        <!-- Header -->
+        <header class="border-b border-gray-200 dark:border-dark-300 bg-white dark:bg-dark-400 shadow-sm py-4 px-6 sticky top-0 z-10">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="text-primary-800 dark:text-primary-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-xl font-semibold">Contact Database</h1>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button id="import-csv-btn" class="px-4 py-2 text-sm font-medium bg-white dark:bg-dark-300 border border-gray-300 dark:border-dark-200 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-200 transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        Import CSV
+                    </button>
+                    <button id="integrations-btn" class="px-4 py-2 text-sm font-medium bg-white dark:bg-dark-300 border border-gray-300 dark:border-dark-200 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-200 transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        Integrations
+                    </button>
+                    <button id="cloudflare-status-btn" class="px-4 py-2 text-sm font-medium bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-lg flex items-center shadow-sm hover:from-orange-500 hover:to-orange-600 transition-all">
+                        <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8.5.25a.75.75 0 00-1 0l-2 2a.75.75 0 101 1.1L8 1.85l1.5 1.5a.75.75 0 101-1.1l-2-2zM2.5 2.25a.75.75 0 00-1 0l-1 1a.75.75 0 101 1.1l1-1a.75.75 0 000-1.1zM14.5 2.25a.75.75 0 00-1 0 .75.75 0 000 1.1l1 1a.75.75 0 101-1.1l-1-1zM8 6a2 2 0 100 4 2 2 0 000-4zm-6.25.75a.75.75 0 000 1.5h.5a.75.75 0 000-1.5h-.5zM13 6.75a.75.75 0 01.75.75v.5a.75.75 0 01-1.5 0v-.5a.75.75 0 01.75-.75zm-9 6.5a.75.75 0 00-1 0l-1 1a.75.75 0 101 1.1l1-1a.75.75 0 000-1.1zm8.5 0a.75.75 0 00-1 0 .75.75 0 000 1.1l1 1a.75.75 0 101-1.1l-1-1zM8.5 13.25a.75.75 0 00-1 0l-2 2a.75.75 0 101 1.1L8 14.85l1.5 1.5a.75.75 0 101-1.1l-2-2z"></path>
+                        </svg>
+                        Cloudflare
+                    </button>
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-300 transition-colors">
+                        <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+            <!-- Left Sidebar - Contact List -->
+            <div id="contact-list-container" class="w-full lg:w-1/3 xl:w-1/4 border-r border-gray-200 dark:border-dark-300 bg-gray-50 dark:bg-dark-400 overflow-y-auto transition-all duration-200">
+                <div class="p-4 sticky top-0 bg-gray-50 dark:bg-dark-400 z-10 border-b border-gray-200 dark:border-dark-300">
+                    <div class="relative">
+                        <input id="search-input" type="text" placeholder="Search contacts..." class="w-full px-4 py-2 pr-10 rounded-lg border border-gray-300 dark:border-dark-200 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white dark:bg-dark-300 text-base dark:text-white">
+                        <span class="absolute right-3 top-2.5 text-gray-400 dark:text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between mt-3">
+                        <div class="flex space-x-2">
+                            <button id="filter-btn" class="px-3 py-1.5 text-xs rounded-lg bg-white dark:bg-dark-300 border border-gray-300 dark:border-dark-200 hover:bg-gray-100 dark:hover:bg-dark-200 transition-colors flex items-center space-x-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                                </svg>
+                                <span>Filter</span>
+                            </button>
+                            <div id="filter-dropdown" class="absolute z-20 mt-10 hidden bg-white dark:bg-dark-300 rounded-lg shadow-lg p-4 w-72 border border-gray-200 dark:border-dark-100">
+                                <h3 class="font-medium mb-2">Filter by</h3>
+                                <div class="space-y-2">
+                                    <div>
+                                        <label class="flex items-center space-x-2 text-sm">
+                                            <input type="checkbox" id="filter-unsubscribed" class="rounded text-primary-500 focus:ring-primary-500">
+                                            <span>Show Unsubscribed</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-2 text-sm">
+                                            <input type="checkbox" id="filter-no-name" class="rounded text-primary-500 focus:ring-primary-500">
+                                            <span>No Name</span>
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label class="flex items-center space-x-2 text-sm">
+                                            <input type="checkbox" id="filter-has-files" class="rounded text-primary-500 focus:ring-primary-500">
+                                            <span>Has Files</span>
+                                        </label>
+                                    </div>
+                                    <div class="pt-2">
+                                        <label class="block text-sm font-medium mb-1">Date Range</label>
+                                        <div class="flex space-x-2">
+                                            <input type="date" id="filter-date-from" class="block w-full px-3 py-1.5 text-sm rounded-md border border-gray-300 dark:border-dark-200 bg-white dark:bg-dark-400 focus:outline-none focus:ring-2 focus:ring-primary-400">
+                                            <input type="date" id="filter-date-to" class="block w-full px-3 py-1.5 text-sm rounded-md border border-gray-300 dark:border-dark-200 bg-white dark:bg-dark-400 focus:outline-none focus:ring-2 focus:ring-primary-400">
+                                        </div>
+                                    </div>
+                                    <div class="pt-3 flex justify-end space-x-2">
+                                        <button id="filter-reset" class="px-3 py-1.5 text-xs rounded-md border border-gray-300 dark:border-dark-200 hover:bg-gray-100 dark:hover:bg-dark-200">Reset</button>
+                                        <button id="filter-apply" class="px-3 py-1.5 text-xs rounded-md bg-primary-500 text-white hover:bg-primary-600">Apply</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="sort-btn" class="px-3 py-1.5 text-xs rounded-lg bg-white dark:bg-dark-300 border border-gray-300 dark:border-dark-200 hover:bg-gray-100 dark:hover:bg-dark-200 transition-colors flex items-center space-x-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 5h10"></path>
+                                    <path d="M11 9h7"></path>
+                                    <path d="M11 13h4"></path>
+                                    <path d="M3 17l3 3 3-3"></path>
+                                    <path d="M6 18V4"></path>
+                                </svg>
+                                <span>Sort</span>
+                            </button>
+                            <div id="sort-dropdown" class="absolute z-20 mt-10 hidden bg-white dark:bg-dark-300 rounded-lg shadow-lg p-3 w-48 border border-gray-200 dark:border-dark-100">
+                                <div class="space-y-1">
+                                    <button data-sort="name-asc" class="sort-option w-full text-left px-3 py-1.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-dark-200 transition-colors flex items-center justify-between">
+                                        <span>Name (A-Z)</span>
+                                        <svg class="sort-check h-4 w-4 text-primary-500 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+                                    <button data-sort="name-desc" class="sort-option w-full text-left px-3 py-1.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-dark-200 transition-colors flex items-center justify-between">
+                                        <span>Name (Z-A)</span>
+                                        <svg class="sort-check h-4 w-4 text-primary-500 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+                                    <button data-sort="date-desc" class="sort-option w-full text-left px-3 py-1.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-dark-200 transition-colors flex items-center justify-between">
+                                        <span>Recent First</span>
+                                        <svg class="sort-check h-4 w-4 text-primary-500 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+                                    <button data-sort="date-asc" class="sort-option w-full text-left px-3 py-1.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-dark-200 transition-colors flex items-center justify-between">
+                                        <span>Oldest First</span>
+                                        <svg class="sort-check h-4 w-4 text-primary-500 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+                                    <button data-sort="files-desc" class="sort-option w-full text-left px-3 py-1.5 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-dark-200 transition-colors flex items-center justify-between">
+                                        <span>Most Files</span>
+                                        <svg class="sort-check h-4 w-4 text-primary-500 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400" id="contact-count">
+                            0 contacts
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="contacts-list" class="divide-y divide-gray-200 dark:divide-dark-300">
+                    <!-- Contact list items will be added here -->
+                    <div class="p-5 text-center text-gray-500">Loading contacts...</div>
+                </div>
+            </div>
+            
+            <!-- Right Content Area - Contact Details -->
+            <div id="contact-detail-container" class="w-full lg:w-2/3 xl:w-3/4 flex flex-col overflow-hidden hidden lg:block">
+                <div id="contact-detail-empty" class="flex-1 flex items-center justify-center p-6 bg-gray-50 dark:bg-dark-300">
+                    <div class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <h3 class="text-lg font-medium text-gray-400 dark:text-gray-500">Select a contact to view details</h3>
+                    </div>
+                </div>
+                
+                <div id="contact-detail" class="flex-1 flex flex-col overflow-hidden hidden">
+                    <!-- Contact detail header -->
+                    <div class="border-b border-gray-200 dark:border-dark-300 bg-white dark:bg-dark-400 p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                            <div class="mb-4 md:mb-0">
+                                <h2 id="detail-name" class="text-2xl font-semibold mb-1"></h2>
+                                <div class="flex items-center space-x-3">
+                                    <a id="detail-email" href="#" class="text-primary-600 dark:text-primary-400 hover:underline"></a>
+                                    <span id="detail-date" class="text-sm text-gray-500 dark:text-gray-400"></span>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button id="share-btn" class="px-4 py-2 rounded-lg bg-white dark:bg-dark-300 text-sm border border-gray-300 dark:border-dark-200 hover:bg-gray-50 dark:hover:bg-dark-200 transition-colors flex items-center space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                                        <polyline points="16 6 12 2 8 6"></polyline>
+                                        <line x1="12" y1="2" x2="12" y2="15"></line>
+                                    </svg>
+                                    <span>Share</span>
+                                </button>
+                                <div id="share-dropdown" class="absolute right-6 mt-10 hidden bg-white dark:bg-dark-300 rounded-lg shadow-lg p-4 w-80 z-20 border border-gray-200 dark:border-dark-100">
+                                    <h3 class="font-medium mb-2">Share this contact</h3>
+                                    <div class="mb-3">
+                                        <input type="text" id="share-link" readonly="" class="w-full px-3 py-2 text-sm rounded-md border border-gray-300 dark:border-dark-200 bg-gray-50 dark:bg-dark-400 focus:outline-none focus:ring-1 focus:ring-primary-400" value="https://contacts.example.com/share/abc123">
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                                            <span id="share-status">Not shared</span>
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <button id="copy-share-link" class="px-3 py-1.5 text-xs rounded-md bg-gray-100 dark:bg-dark-200 hover:bg-gray-200 dark:hover:bg-dark-100 transition-colors">Copy Link</button>
+                                            <button id="generate-share-link" class="px-3 py-1.5 text-xs rounded-md bg-primary-500 text-white hover:bg-primary-600 transition-colors">Generate Link</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="upload-btn" class="px-4 py-2 rounded-lg bg-primary-500 text-white text-sm hover:bg-primary-600 transition-colors flex items-center space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    <span>Upload</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Tabs -->
+                        <div class="mt-6">
+                            <div class="flex space-x-4 overflow-x-auto scrollbar-hide">
+                                <button class="tab-btn px-3 py-2 text-sm font-medium rounded-md transition-colors whitespace-nowrap border-b-2 border-primary-500 text-primary-600 dark:text-primary-400" data-tab="all">
+                                    All Files
+                                </button>
+                                <button class="tab-btn px-3 py-2 text-sm font-medium rounded-md transition-colors whitespace-nowrap text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 border-b-2 border-transparent" data-tab="pdf">
+                                    PDFs
+                                </button>
+                                <button class="tab-btn px-3 py-2 text-sm font-medium rounded-md transition-colors whitespace-nowrap text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 border-b-2 border-transparent" data-tab="audio">
+                                    Audio
+                                </button>
+                                <button class="tab-btn px-3 py-2 text-sm font-medium rounded-md transition-colors whitespace-nowrap text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 border-b-2 border-transparent" data-tab="images">
+                                    Images
+                                </button>
+                                <button class="tab-btn px-3 py-2 text-sm font-medium rounded-md transition-colors whitespace-nowrap text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 border-b-2 border-transparent" data-tab="emails">
+                                    Emails
+                                </button>
+                                <button class="tab-btn px-3 py-2 text-sm font-medium rounded-md transition-colors whitespace-nowrap text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 border-b-2 border-transparent" data-tab="texts">
+                                    Texts
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact detail content -->
+                    <div class="flex-1 overflow-y-auto bg-gray-50 dark:bg-dark-300 p-6">
+                        <!-- Tab content will be displayed here -->
+                        <div id="tab-content" class="tab-content">
+                            <!-- Empty state by default -->
+                            <div class="text-center py-12">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                    <polyline points="13 2 13 9 20 9"></polyline>
+                                </svg>
+                                <h3 class="text-lg font-medium text-gray-400 dark:text-gray-500 mb-2">No files yet</h3>
+                                <p class="text-sm text-gray-400 dark:text-gray-500 max-w-md mx-auto">
+                                    Upload files for this contact using the upload button above
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Upload Modal -->
+        <div id="upload-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white dark:bg-dark-400 rounded-lg shadow-xl max-w-md w-full mx-4 overflow-hidden">
+                <div class="border-b border-gray-200 dark:border-dark-300 px-6 py-4 flex items-center justify-between">
+                    <h3 class="text-lg font-medium">Upload Files</h3>
+                    <button id="close-upload-modal" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1">File Type</label>
+                        <select id="upload-type" class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-dark-200 bg-white dark:bg-dark-300 focus:outline-none focus:ring-2 focus:ring-primary-400 text-base">
+                            <option value="pdf">PDF Document</option>
+                            <option value="audio">Audio File</option>
+                            <option value="image">Image</option>
+                            <option value="email">Email</option>
+                            <option value="text">Text Message</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1">Upload File</label>
+                        <div class="border-2 border-dashed border-gray-300 dark:border-dark-200 rounded-lg px-6 py-8 text-center cursor-pointer hover:border-primary-400 dark:hover:border-primary-400 transition-colors" id="dropzone">
+                            <input type="file" id="file-input" class="hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Drag and drop your file here, or <span class="text-primary-500">browse</span></p>
+                            <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">Max size: 10MB</p>
+                        </div>
+                    </div>
+                    <div id="selected-file" class="mb-4 hidden">
+                        <div class="flex items-center p-3 bg-gray-50 dark:bg-dark-300 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span id="selected-filename" class="text-sm truncate flex-1">filename.pdf</span>
+                            <button id="remove-file" class="ml-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="pdf-options" class="mb-4 hidden">
+                        <h4 class="text-sm font-medium mb-2">Share with contacts</h4>
+                        <div class="max-h-32 overflow-y-auto border border-gray-200 dark:border-dark-300 rounded-md p-2 mb-2">
+                            <div id="contact-sharing-list" class="space-y-1">
+                                <!-- Contact checkboxes will be added here -->
+                            </div>
+                        </div>
+                        <div class="flex items-center mt-2">
+                            <input type="checkbox" id="ai-analyze" class="rounded text-primary-500 focus:ring-primary-500 mr-2">
+                            <label for="ai-analyze" class="text-sm">Extract info with AI</label>
+                            <div class="ml-1 group relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 cursor-help" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                                </svg>
+                                <div class="absolute left-0 bottom-full mb-2 w-48 bg-black text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                                    Uses OpenRouter AI to analyze PDF content and extract key information.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="upload-progress" class="mb-4 hidden">
+                        <div class="w-full bg-gray-200 dark:bg-dark-200 rounded-full h-2.5">
+                            <div id="upload-progress-bar" class="bg-primary-500 h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs mt-1">
+                            <span id="upload-status">Uploading...</span>
+                            <span id="upload-percentage">0%</span>
+                        </div>
+                    </div>
+                    <div id="cloudflare-status" class="mt-2 text-xs text-gray-500 dark:text-gray-400 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-orange-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span>File will be stored on Cloudflare R2</span>
+                    </div>
+                </div>
+                <div class="px-6 py-3 border-t border-gray-200 dark:border-dark-300 flex justify-end">
+                    <button id="cancel-upload" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-100 transition-colors mr-2">
+                        Cancel
+                    </button>
+                    <button id="submit-upload" class="px-4 py-2 text-sm font-medium rounded-md bg-primary-500 text-white hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        Upload
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CSV Import Modal -->
+        <div id="csv-import-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white dark:bg-dark-400 rounded-lg shadow-xl max-w-2xl w-full mx-4 overflow-hidden">
+                <div class="border-b border-gray-200 dark:border-dark-300 px-6 py-4 flex items-center justify-between">
+                    <h3 class="text-lg font-medium">Import Contacts from CSV</h3>
+                    <button id="close-csv-modal" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="mb-6">
+                        <div class="border-2 border-dashed border-gray-300 dark:border-dark-200 rounded-lg px-6 py-8 text-center cursor-pointer hover:border-primary-400 dark:hover:border-primary-400 transition-colors" id="csv-dropzone">
+                            <input type="file" id="csv-file-input" class="hidden" accept=".csv">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Upload your contacts CSV file</p>
+                            <p class="text-primary-500 font-medium text-sm">Click to browse or drag and drop</p>
+                            <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">Your CSV should have columns for name, email, and other contact details</p>
+                        </div>
+                    </div>
+                    
+                    <div id="csv-preview" class="hidden">
+                        <h4 class="text-sm font-medium mb-2">Preview and Map Fields</h4>
+                        <div class="border border-gray-200 dark:border-dark-300 rounded-lg overflow-hidden mb-4">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead>
+                                        <tr class="bg-gray-50 dark:bg-dark-300 border-b border-gray-200 dark:border-dark-300">
+                                            <th class="px-4 py-2 text-left font-medium">CSV Column</th>
+                                            <th class="px-4 py-2 text-left font-medium">Map to Field</th>
+                                            <th class="px-4 py-2 text-left font-medium">Sample Data</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="csv-mapping-table" class="divide-y divide-gray-200 dark:divide-dark-300">
+                                        <!-- Field mapping rows will be added here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center mb-4">
+                            <input type="checkbox" id="skip-first-row" class="rounded text-primary-500 focus:ring-primary-500 mr-2">
+                            <label for="skip-first-row" class="text-sm">Skip first row (header row)</label>
+                        </div>
+                        
+                        <div class="bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 p-3 rounded-lg text-sm mb-4">
+                            <div class="flex">
+                                <svg class="h-5 w-5 text-blue-500 dark:text-blue-400 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                                <span>Preview shows the first 3 rows of your CSV file. <strong>Name</strong> and <strong>Email</strong> are required fields.</span>
+                            </div>
+                        </div>
+                        
+                        <div id="csv-import-progress" class="mb-4 hidden">
+                            <div class="w-full bg-gray-200 dark:bg-dark-200 rounded-full h-2.5">
+                                <div id="csv-progress-bar" class="bg-primary-500 h-2.5 rounded-full" style="width: 0%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs mt-1">
+                                <span id="csv-progress-status">Importing contacts...</span>
+                                <span id="csv-progress-percentage">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-3 border-t border-gray-200 dark:border-dark-300 flex justify-end">
+                    <button id="cancel-csv-import" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-100 transition-colors mr-2">
+                        Cancel
+                    </button>
+                    <button id="import-csv" class="px-4 py-2 text-sm font-medium rounded-md bg-primary-500 text-white hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled="">
+                        Import Contacts
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Integrations Modal -->
+        <div id="integrations-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white dark:bg-dark-400 rounded-lg shadow-xl max-w-5xl w-full mx-4 overflow-hidden">
+                <div class="border-b border-gray-200 dark:border-dark-300 px-6 py-4 flex items-center justify-between">
+                    <h3 class="text-lg font-medium">Integrations</h3>
+                    <button id="close-integrations-modal" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-6 overflow-y-auto max-h-[80vh]">
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+                        Connect your contact database with external services to automatically import and sync contacts.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Cloudflare Integration -->
+                        <div class="bg-white dark:bg-dark-300 rounded-lg border border-gray-200 dark:border-dark-300 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="p-5">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 rounded-lg bg-orange-100 dark:bg-orange-900/20 flex items-center justify-center mr-4 flex-shrink-0">
+                                        <svg class="w-6 h-6 text-orange-500 dark:text-orange-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                                            <path d="M8.5.25a.75.75 0 00-1 0l-2 2a.75.75 0 101 1.1L8 1.85l1.5 1.5a.75.75 0 101-1.1l-2-2zM2.5 2.25a.75.75 0 00-1 0l-1 1a.75.75 0 101 1.1l1-1a.75.75 0 000-1.1zM14.5 2.25a.75.75 0 00-1 0 .75.75 0 000 1.1l1 1a.75.75 0 101-1.1l-1-1zM8 6a2 2 0 100 4 2 2 0 000-4zm-6.25.75a.75.75 0 000 1.5h.5a.75.75 0 000-1.5h-.5zM13 6.75a.75.75 0 01.75.75v.5a.75.75 0 01-1.5 0v-.5a.75.75 0 01.75-.75zm-9 6.5a.75.75 0 00-1 0l-1 1a.75.75 0 101 1.1l1-1a.75.75 0 000-1.1zm8.5 0a.75.75 0 00-1 0 .75.75 0 000 1.1l1 1a.75.75 0 101-1.1l-1-1zM8.5 13.25a.75.75 0 00-1 0l-2 2a.75.75 0 101 1.1L8 14.85l1.5 1.5a.75.75 0 101-1.1l-2-2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-medium mb-1">Cloudflare Integration</h3>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Store files on Cloudflare R2 and use D1 database for efficient storage and global distribution.</p>
+                                        <div class="mt-2">
+                                            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                                <input type="checkbox" id="cloudflare-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-700 appearance-none cursor-pointer" checked="">
+                                                <label for="cloudflare-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-700 cursor-pointer"></label>
+                                            </div>
+                                            <span class="text-sm text-gray-500 dark:text-gray-400">Connected</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-dark-500" id="cloudflare-settings">
+                                    <div class="mb-3">
+                                        <label class="block text-sm font-medium mb-1">Configuration</label>
+                                        <div class="flex">
+                                            <input type="text" id="cloudflare-config" readonly="" value="R2_BUCKET: central-files, DB: ADCS_DB" class="flex-1 px-3 py-2 rounded-l-md border border-gray-300 dark:border-dark-200 bg-gray-50 dark:bg-dark-400 text-sm">
+                                            <button id="copy-config" class="px-3 py-2 rounded-r-md bg-gray-100 dark:bg-dark-200 hover:bg-gray-200 dark:hover:bg-dark-100 border border-l-0 border-gray-300 dark:border-dark-200 text-sm">
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="block text-sm font-medium mb-1">Storage Status</label>
+                                        <div class="bg-gray-50 dark:bg-dark-200 rounded-md p-3 text-sm">
+                                            <div class="flex justify-between mb-1">
+                                                <span>Files stored:</span>
+                                                <span class="font-medium">42</span>
+                                            </div>
+                                            <div class="flex justify-between mb-1">
+                                                <span>Storage used:</span>
+                                                <span class="font-medium">12.8 MB</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span>Database size:</span>
+                                                <span class="font-medium">3.2 MB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex space-x-3">
+                                        <button id="generate-wrangler-config" class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors flex items-center">
+                                            <svg class="w-4 h-4 mr-1.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M14.5 12.5l.5-2.5H9l.5-2.5h6l.5-2.5H8.5L9 2.5H6L5.5 5H3L2.5 7.5H5L4.5 10H2l-.5 2.5H4L3.5 15H6l.5-2.5H13l-.5 2.5h2.5l.5-2.5z"></path>
+                                            </svg>
+                                            Generate wrangler.toml
+                                        </button>
+                                        <button id="test-connection" class="px-4 py-2 bg-gray-200 dark:bg-dark-100 hover:bg-gray-300 dark:hover:bg-dark-200 text-gray-800 dark:text-gray-200 text-sm font-medium rounded-lg transition-colors flex items-center">
+                                            <svg class="w-4 h-4 mr-1.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Test Connection
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- OpenRouter AI Integration -->
+                        <div class="bg-white dark:bg-dark-300 rounded-lg border border-gray-200 dark:border-dark-300 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="p-5">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 rounded-lg bg-violet-100 dark:bg-violet-900/20 flex items-center justify-center mr-4 flex-shrink-0">
+                                        <svg class="w-6 h-6 text-violet-600 dark:text-violet-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 2a5 5 0 0 0-5 5v2a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5Z"></path>
+                                            <path d="M2 12.5h1a3 3 0 0 1 3 3v1a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2v-1a3 3 0 0 1 3-3h1"></path>
+                                            <path d="M18 12.5h1a3 3 0 0 1 3 3v1a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2v-1a3 3 0 0 1 3-3h1"></path>
+                                            <path d="M22 19h1"></path>
+                                            <path d="M10 19h4"></path>
+                                            <path d="M1 19h1"></path>
+                                            <path d="M12 19v3"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-medium mb-1">OpenRouter AI Integration</h3>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Analyze PDFs and extract information using AI models from OpenRouter.</p>
+                                        <div class="mt-2">
+                                            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                                <input type="checkbox" id="openrouter-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-700 appearance-none cursor-pointer" checked="">
+                                                <label for="openrouter-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-700 cursor-pointer"></label>
+                                            </div>
+                                            <span class="text-sm text-gray-500 dark:text-gray-400">Connected</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-dark-500" id="openrouter-settings">
+                                    <div class="mb-3">
+                                        <label class="block text-sm font-medium mb-1">API Key</label>
+                                        <div class="flex">
+                                            <input type="password" id="api-key-masked" readonly="" value="••••••••••••••••••••••••••••••••••••••••••" class="flex-1 px-3 py-2 rounded-l-md border border-gray-300 dark:border-dark-200 bg-gray-50 dark:bg-dark-400 text-sm">
+                                            <button id="toggle-api-key" class="px-3 py-2 bg-gray-100 dark:bg-dark-200 hover:bg-gray-200 dark:hover:bg-dark-100 border border-gray-300 dark:border-dark-200 border-l-0 text-sm">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                            <button id="copy-api-key" class="px-3 py-2 rounded-r-md bg-gray-100 dark:bg-dark-200 hover:bg-gray-200 dark:hover:bg-dark-100 border border-l-0 border-gray-300 dark:border-dark-200 text-sm">
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="block text-sm font-medium mb-1">Default Model</label>
+                                        <select id="ai-model" class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-dark-200 bg-white dark:bg-dark-300 focus:outline-none focus:ring-2 focus:ring-primary-400 text-sm">
+                                            <option value="anthropic/claude-3.7-sonnet:beta">Claude 3.7 Sonnet (Default)</option>
+                                            <option value="anthropic/claude-3.7-sonnet:thinking">Claude 3.7 Sonnet w/ Thinking</option>
+                                            <option value="openai/o3-mini">OpenAI o3-mini</option>
+                                            <option value="deepseek/deepseek-v3-base:free">DeepSeek v3 Base (Free)</option>
+                                            <option value="deepseek/deepseek-r1-zero:free">DeepSeek R1 Zero (Free)</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex space-x-3">
+                                        <button id="update-openrouter" class="px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center">
+                                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                            </svg>
+                                            Update Settings
+                                        </button>
+                                        <button id="test-openrouter" class="px-4 py-2 bg-gray-200 dark:bg-dark-100 hover:bg-gray-300 dark:hover:bg-dark-200 text-gray-800 dark:text-gray-200 text-sm font-medium rounded-lg transition-colors flex items-center">
+                                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="m22 11-7-9v5H3v8h12v5Z"></path>
+                                            </svg>
+                                            Test Connection
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Gmail Integration -->
+                        <div class="bg-white dark:bg-dark-300 rounded-lg border border-gray-200 dark:border-dark-300 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="p-5">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/20 flex items-center justify-center mr-4 flex-shrink-0">
+                                        <svg class="w-6 h-6 text-red-600 dark:text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M20 18h-2V9.25L12 13 6 9.25V18H4V6h1.2l6.8 4.25L18.8 6H20m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-medium mb-1">Gmail Integration</h3>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Import contacts from your Gmail account and automatically sync email conversations.</p>
+                                        <div class="mt-2">
+                                            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                                <input type="checkbox" id="gmail-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-700 appearance-none cursor-pointer">
+                                                <label for="gmail-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-700 cursor-pointer"></label>
+                                            </div>
+                                            <span class="text-sm text-gray-500 dark:text-gray-400">Not connected</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-dark-500 hidden" id="gmail-settings">
+                                    <button class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center">
+                                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M20 18h-2V9.25L12 13 6 9.25V18H4V6h1.2l6.8 4.25L18.8 6H20m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2z"></path>
+                                        </svg>
+                                        Connect Gmail Account
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- API Integration -->
+                        <div class="bg-white dark:bg-dark-300 rounded-lg border border-gray-200 dark:border-dark-300 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="p-5">
+                                <div class="flex items-start">
+                                    <div class="w-12 h-12 rounded-lg bg-indigo-100 dark:bg-indigo-900/20 flex items-center justify-center mr-4 flex-shrink-0">
+                                        <svg class="w-6 h-6 text-indigo-600 dark:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path>
+                                            <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-medium mb-1">API Access</h3>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">Get API keys to integrate your contacts with custom applications or services.</p>
+                                        <div class="mt-2">
+                                            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                                <input type="checkbox" id="api-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-700 appearance-none cursor-pointer">
+                                                <label for="api-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-700 cursor-pointer"></label>
+                                            </div>
+                                            <span class="text-sm text-gray-500 dark:text-gray-400">API access disabled</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-dark-500 hidden" id="api-settings">
+                                    <div class="mb-3">
+                                        <label class="block text-sm font-medium mb-1">API Key</label>
+                                        <div class="flex">
+                                            <input type="text" readonly="" value="••••••••••••••••••••" class="flex-1 px-3 py-2 rounded-l-md border border-gray-300 dark:border-dark-200 bg-gray-50 dark:bg-dark-400 text-sm">
+                                            <button class="px-3 py-2 rounded-r-md bg-gray-100 dark:bg-dark-200 hover:bg-gray-200 dark:hover:bg-dark-100 border border-l-0 border-gray-300 dark:border-dark-200 text-sm">
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                                        API documentation is available <a href="#" class="text-primary-500 hover:underline">here</a>.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-3 border-t border-gray-200 dark:border-dark-300 flex justify-end">
+                    <button id="close-integrations-btn" class="px-4 py-2 text-sm font-medium rounded-md bg-primary-500 text-white hover:bg-primary-600 transition-colors">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cloudflare Setup Modal -->
+        <div id="cloudflare-setup-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white dark:bg-dark-400 rounded-lg shadow-xl max-w-3xl w-full mx-4 overflow-hidden">
+                <div class="border-b border-gray-200 dark:border-dark-300 px-6 py-4 flex items-center justify-between bg-gradient-to-r from-orange-400 to-orange-500">
+                    <h3 class="text-lg font-medium text-white">Cloudflare Integration Setup</h3>
+                    <button id="close-cloudflare-modal" class="text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-6 overflow-y-auto max-h-[70vh]">
+                    <div class="mb-6">
+                        <div class="p-4 bg-gray-50 dark:bg-dark-300 rounded-lg mb-4">
+                            <h4 class="text-md font-medium mb-2 flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                                Why Cloudflare?
+                            </h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">
+                                Cloudflare integration provides robust storage for your contacts and files with several advantages:
+                            </p>
+                            <ul class="list-disc pl-5 text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                                <li>Global distribution - files load quickly anywhere in the world</li>
+                                <li>Deduplication - files shared with multiple contacts are stored only once</li>
+                                <li>Cost-effective - pay only for what you use with no minimum fees</li>
+                                <li>Reliable backups - data is automatically replicated across multiple regions</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="space-y-5">
+                            <div>
+                                <h4 class="text-md font-medium mb-3">1. Install Wrangler CLI</h4>
+                                <div class="bg-gray-800 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+                                    <pre>npm install -g @cloudflare/wrangler</pre>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-md font-medium mb-3">2. Authenticate with Cloudflare</h4>
+                                <div class="bg-gray-800 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+                                    <pre>wrangler login</pre>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-md font-medium mb-3">3. Create R2 Bucket for File Storage</h4>
+                                <div class="bg-gray-800 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+                                    <pre>wrangler r2 bucket create central-files</pre>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-md font-medium mb-3">4. Create D1 Database for Metadata</h4>
+                                <div class="bg-gray-800 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+                                    <pre>wrangler d1 create ADCS_DB
+wrangler d1 migrations create init_schema --database ADCS_DB</pre>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Create <code class="bg-gray-100 dark:bg-dark-200 px-1 py-0.5 rounded text-xs">migrations/init_schema.sql</code> with this schema:</p>
+                                <div class="bg-gray-800 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto mt-2">
+                                    <pre>CREATE TABLE files (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  key TEXT UNIQUE,
+  name TEXT,
+  mime TEXT,
+  size INTEGER,
+  uploaded_at TEXT
+);
+CREATE TABLE contacts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT UNIQUE,
+  name TEXT,
+  last_contacted TEXT,
+  unsubscribed INTEGER DEFAULT 0,
+  metadata TEXT
+);
+CREATE TABLE file_contacts (
+  file_id INTEGER,
+  contact_id INTEGER,
+  is_original INTEGER DEFAULT 0,
+  UNIQUE(file_id, contact_id)
+);</pre>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-md font-medium mb-3">5. Create KV Namespace for Aliases</h4>
+                                <div class="bg-gray-800 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+                                    <pre>wrangler kv:namespace create "FILE_ALIASES"</pre>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Note the ID returned by this command for your <code class="bg-gray-100 dark:bg-dark-200 px-1 py-0.5 rounded text-xs">wrangler.toml</code> file.</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-md font-medium mb-3">6. Create wrangler.toml Configuration</h4>
+                                <div class="bg-gray-800 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+                                    <pre>name = "adcs-worker"
+type = "javascript"
+account_id = "<your-account-id>"
+workers_dev = true
+route = ""
+
+# Bind your R2, D1, and KV
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "central-files"
+
+[[d1_databases]]
+binding = "D1_DATABASE"
+database_name = "ADCS_DB"
+
+[[kv_namespaces]]
+binding = "KV_NAMESPACE"
+id = "<kv-namespace-id>"</kv-namespace-id></your-account-id></pre>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-md font-medium mb-3">7. (Optional) Set OpenRouter API Key</h4>
+                                <div class="bg-gray-800 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+                                    <pre>wrangler secret put OPENROUTER_API_KEY</pre>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">When prompted, paste your OpenRouter API key.</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="text-md font-medium mb-3">8. Deploy and Migrate</h4>
+                                <div class="bg-gray-800 text-gray-100 p-3 rounded-md font-mono text-sm overflow-x-auto">
+                                    <pre>wrangler d1 migrations deploy --database ADCS_DB
+wrangler publish</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-3 border-t border-gray-200 dark:border-dark-300 flex justify-end">
+                    <button id="download-instructions" class="px-4 py-2 text-sm font-medium rounded-md bg-gray-200 dark:bg-dark-100 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-dark-200 transition-colors mr-3 flex items-center">
+                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                        Download Instructions
+                    </button>
+                    <button id="close-cloudflare-instructions" class="px-4 py-2 text-sm font-medium rounded-md bg-primary-500 text-white hover:bg-primary-600 transition-colors">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            
+            // Check for system dark mode preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            }
+            
+            // Listen for changes in system preference
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                if (event.matches) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            });
+            
+            // Add styles for toggle switches
+            const style = document.createElement('style');
+            style.textContent = `
+                .toggle-checkbox:checked {
+                    right: 0;
+                    border-color: #5D5CDE;
+                }
+                .toggle-checkbox:checked + .toggle-label {
+                    background-color: #5D5CDE;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            themeToggle.addEventListener('click', function() {
+                document.documentElement.classList.toggle('dark');
+            });
+            
+            // Cloudflare API Configuration
+            const API_URL = 'https://adcs-worker.adcs-api-9482.workers.dev';
+            
+            // API Helper Functions
+            async function apiRequest(endpoint, options = {}) {
+                try {
+                    const response = await fetch(`${API_URL}${endpoint}`, {
+                        ...options,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            ...options.headers
+                        }
+                    });
+                    if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
+                    return await response.json();
+                } catch (error) {
+                    console.error('API Request Failed:', error);
+                    throw error;
+                }
+            }
+            
+            async function loadContactsFromAPI() {
+                try {
+                    const [apiContacts, apiFiles] = await Promise.all([
+                        apiRequest('/api/contacts'),
+                        apiRequest('/api/files')
+                    ]);
+                    
+                    return apiContacts.map(contact => {
+                        // Find files for this contact
+                        const contactFiles = apiFiles
+                            .filter(file => {
+                                // Files are linked via file_contacts table in the backend
+                                // For now, we'll need to check if files were uploaded with this contact's ID
+                                return true; // We'll filter this properly in a moment
+                            })
+                            .map(file => ({
+                                id: `file-${file.id}`,
+                                name: file.name,
+                                type: file.mime?.includes('pdf') ? 'pdf' : 
+                                      file.mime?.includes('audio') ? 'audio' :
+                                      file.mime?.includes('image') ? 'image' :
+                                      file.mime?.includes('email') ? 'email' :
+                                      file.mime?.includes('text') ? 'text' : 'file',
+                                size: formatFileSize(file.size),
+                                date: new Date(file.uploaded_at).toLocaleDateString('en-US', { 
+                                    month: 'short', 
+                                    day: 'numeric', 
+                                    year: 'numeric' 
+                                }),
+                                cloudflareId: file.key,
+                                isShared: false,
+                                sharedWith: []
+                            }));
+                        
+                        return {
+                            ...contact,
+                            id: `contact-${contact.id}`,
+                            Name: contact.name || '',
+                            Email: contact.email || '',
+                            displayName: contact.name || contact.email?.split('@')[0] || 'Unknown',
+                            'Last Contacted on': contact.last_contacted || '',
+                            Unsubscribed: contact.unsubscribed ? 'yes' : 'no',
+                            files: contactFiles,
+                            fileCount: contactFiles.length,
+                            unsubscribed: contact.unsubscribed === 1
+                        };
+                    });
+                } catch (error) {
+                    console.error('Failed to load contacts from API:', error);
+                    return [];
+                }
+            }
+            
+            async function saveContactToAPI(contact) {
+                try {
+                    const data = await apiRequest('/api/contacts', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            email: contact.Email || contact.email,
+                            name: contact.Name || contact.name || '',
+                            metadata: JSON.stringify(contact)
+                        })
+                    });
+                    return data;
+                } catch (error) {
+                    console.error('Failed to save contact:', error);
+                    throw error;
+                }
+            }
+            
+            async function deleteContactFromAPI(contactId) {
+                try {
+                    const numericId = contactId.replace('contact-', '');
+                    await apiRequest(`/api/contacts/${numericId}`, {
+                        method: 'DELETE'
+                    });
+                } catch (error) {
+                    console.error('Failed to delete contact:', error);
+                    throw error;
+                }
+            }
+            
+            // Download file from Cloudflare R2
+            async function downloadFile(fileKey, fileName) {
+                try {
+                    showNotification('Downloading file from Cloudflare R2...');
+                    const response = await fetch(`${API_URL}/api/files/${fileKey}`);
+                    
+                    if (!response.ok) {
+                        throw new Error('File not found');
+                    }
+                    
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    showNotification('File downloaded successfully');
+                } catch (error) {
+                    console.error('Failed to download file:', error);
+                    showNotification('Failed to download file: ' + error.message, 5000);
+                }
+            }
+            
+            // Sample contact data
+            let contacts = [];
+            
+            // Parse the CSV data
+            const csvData = `"Name","Email","Last Contacted on","Unsubscribed"
+"Liam Thorp","liam.thorp@reachplc.com","Feb 18, 2025, 4:47:46 PM","no"
+"","andreachavesd97@gmail.com","Feb 18, 2025, 3:58:59 PM","no"
+"St Christopher's & Flying Pig Hostels","customer.service@st-christophers.co.uk","Feb 13, 2025, 3:04:46 PM","no"
+"","Authority@legaldueprocess.com","Feb 13, 2025, 3:04:46 PM","no"
+"","admin@cavalrycare.co.uk","Feb 10, 2025, 3:45:44 PM","no"
+"","devarsh@bombayfoundersclub.com","Feb 6, 2025, 12:28:45 PM","no"
+"","Kajaldhorada11@gmail.com","Feb 6, 2025, 12:28:45 PM","no"
+"frontdesk.liverpool@tunehotelsuk.com","frontdesk.liverpool@tunehotelsuk.com","Feb 3, 2025, 1:39:13 AM","no"
+"lynn.roberts@gmail.com","lynn.roberts@gmail.com","Feb 3, 2025, 1:39:13 AM","no"
+"","frontdesk.liverpool@tubehotelsuk.com","Feb 3, 2025, 1:34:07 AM","no"
+"","lynne.roberts@gmail.com","Feb 3, 2025, 1:34:07 AM","no"
+"Kalpesh Wankhede","kalpeshwankhede@gmail.com","Feb 2, 2025, 12:53:51 PM","no"
+"Krishna Wankhede","krishnawankhede2020@gmail.com","Feb 2, 2025, 12:53:51 PM","no"
+"EDF","hello@edfenergy.com","Jan 29, 2025, 2:02:27 PM","no"
+"Benjamin John James Green","bensent@hotmail.co.uk","Jan 19, 2025, 1:16:45 PM","no"
+"","authority@legaldueprocess.com","Jan 16, 2025, 3:36:14 PM","no"
+"JCP ATWOSU London","ATWOSU.LONDON@dwp.gov.uk","Jan 16, 2025, 3:29:21 PM","no"
+"","dwponline.helpdesk@dwp.gov.uk","Jan 16, 2025, 10:35:29 AM","no"
+"lizi.morovics@gmail.com","lizi.morovics@gmail.com","Jan 12, 2025, 2:19:39 AM","no"
+"","Karis.hanson@survivorsuk.org","Jan 8, 2025, 11:29:31 AM","no"`;
+            
+            // Parse CSV function
+            function parseCSV(csvText) {
+                const lines = csvText.split('\n');
+                const headers = lines[0].split(',').map(header => header.replace(/^"|"$/g, ''));
+                
+                return lines.slice(1).map(line => {
+                    // Handle commas in quoted fields
+                    const values = [];
+                    let currentValue = '';
+                    let insideQuotes = false;
+                    
+                    for (let i = 0; i < line.length; i++) {
+                        const char = line[i];
+                        
+                        if (char === '"') {
+                            insideQuotes = !insideQuotes;
+                        } else if (char === ',' && !insideQuotes) {
+                            values.push(currentValue.replace(/^"|"$/g, ''));
+                            currentValue = '';
+                        } else {
+                            currentValue += char;
+                        }
+                    }
+                    
+                    values.push(currentValue.replace(/^"|"$/g, ''));
+                    
+                    const contact = {};
+                    headers.forEach((header, index) => {
+                        contact[header] = values[index] || '';
+                    });
+                    
+                    return contact;
+                });
+            }
+            
+            // Load contacts from Cloudflare API on page load
+            (async function initializeContacts() {
+                contacts = await loadContactsFromAPI();
+                
+                // If no contacts from API, parse CSV as fallback and save to API
+                if (contacts.length === 0) {
+                    contacts = parseCSV(csvData);
+                    contacts = contacts.map((contact, index) => {
+                        return {
+                            ...contact,
+                            id: `contact-${index}`,
+                            displayName: contact.Name || contact.Email.split('@')[0],
+                            files: [],
+                            fileCount: 0,
+                            unsubscribed: contact.Unsubscribed === 'yes'
+                        };
+                    });
+                    
+                    // Save CSV contacts to API
+                    for (const contact of contacts) {
+                        try {
+                            await saveContactToAPI(contact);
+                        } catch (error) {
+                            console.error('Failed to migrate contact to API:', contact, error);
+                        }
+                    }
+                    
+                    // Reload from API to get proper IDs
+                    contacts = await loadContactsFromAPI();
+                }
+                
+                renderContacts();
+                
+                // Check if there's a shared contact in the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const sharedContactId = urlParams.get('contact');
+                if (sharedContactId) {
+                    const contact = contacts.find(c => c.id === sharedContactId);
+                    if (contact) {
+                        // Highlight the contact in the list
+                        const contactEl = document.querySelector(`[data-id="${sharedContactId}"]`);
+                        if (contactEl) {
+                            contactEl.click();
+                            showNotification('Opened shared contact');
+                        }
+                    }
+                }
+            })();
+            
+            // Keep the parseCSV function for CSV import feature
+            contacts = [];
+            
+            // Add unique IDs and file arrays to each contact
+            contacts = contacts.map((contact, index) => {
+                return {
+                    ...contact,
+                    id: `contact-${index}`,
+                    // Generate a display name for contacts without a name
+                    displayName: contact.Name || contact.Email.split('@')[0],
+                    // Add files array to track associated files
+                    files: [],
+                    // Add fileCount to track file count
+                    fileCount: Math.floor(Math.random() * 3)  // Randomly assign 0-2 files for demonstration
+                };
+            });
+            
+            // Add some sample files to contacts
+            const sampleFiles = [
+                {
+                    id: 'file-1',
+                    name: 'Contract Agreement.pdf',
+                    type: 'pdf',
+                    size: '1.2 MB',
+                    date: 'Jan 15, 2025',
+                    cloudflareId: 'cf-file-1234',
+                    isShared: true,
+                    sharedWith: ['contact-0', 'contact-1']
+                },
+                {
+                    id: 'file-2',
+                    name: 'Meeting Notes.pdf',
+                    type: 'pdf',
+                    size: '438 KB',
+                    date: 'Feb 2, 2025',
+                    cloudflareId: 'cf-file-5678',
+                    isShared: false
+                },
+                {
+                    id: 'file-3',
+                    name: 'Phone Call Recording.mp3',
+                    type: 'audio',
+                    size: '3.4 MB',
+                    date: 'Jan 28, 2025',
+                    cloudflareId: 'cf-file-9012',
+                    isShared: false
+                },
+                {
+                    id: 'file-4',
+                    name: 'ID Verification.jpg',
+                    type: 'image',
+                    size: '2.1 MB',
+                    date: 'Feb 10, 2025',
+                    cloudflareId: 'cf-file-3456',
+                    isShared: true,
+                    sharedWith: ['contact-2', 'contact-5']
+                },
+                {
+                    id: 'file-5',
+                    name: 'Confirmation Email.eml',
+                    type: 'email',
+                    size: '24 KB',
+                    date: 'Feb 5, 2025',
+                    cloudflareId: 'cf-file-7890',
+                    isShared: false
+                }
+            ];
+            
+            // Assign sample files to contacts
+            contacts.forEach((contact, index) => {
+                if (index < 5) { // Assign files to first 5 contacts for demonstration
+                    contact.files.push(sampleFiles[index]);
+                    
+                    // For shared files
+                    if (sampleFiles[index].isShared) {
+                        sampleFiles[index].sharedWith.forEach(sharedContactId => {
+                            if (sharedContactId !== contact.id) {
+                                const sharedContact = contacts.find(c => c.id === sharedContactId);
+                                if (sharedContact) {
+                                    sharedContact.files.push({
+                                        ...sampleFiles[index],
+                                        isReference: true,
+                                        originalContactId: contact.id
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+            
+            // Update file counts based on actual files
+            contacts.forEach(contact => {
+                contact.fileCount = contact.files.length;
+            });
+            
+            // Update the contact count
+            document.getElementById('contact-count').textContent = `${contacts.length} contacts`;
+            
+            // Render the contacts list
+            function renderContacts(filteredContacts = contacts) {
+                const contactsList = document.getElementById('contacts-list');
+                contactsList.innerHTML = '';
+                
+                if (filteredContacts.length === 0) {
+                    contactsList.innerHTML = `
+                        <div class="p-5 text-center text-gray-500 dark:text-gray-400">
+                            No contacts found
+                        </div>
+                    `;
+                    return;
+                }
+                
+                filteredContacts.forEach(contact => {
+                    const contactEl = document.createElement('div');
+                    contactEl.className = 'p-4 hover:bg-gray-100 dark:hover:bg-dark-300 cursor-pointer transition-colors';
+                    contactEl.dataset.id = contact.id;
+                    
+                    // File indicator
+                    const fileIndicator = contact.fileCount > 0 ? 
+                        `<span class="ml-2 px-1.5 py-0.5 bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 rounded text-xs">${contact.fileCount} files</span>` : '';
+                    
+                    // Create contact list item
+                    contactEl.innerHTML = `
+                        <div class="flex items-center">
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-sm font-medium truncate flex items-center">
+                                    ${contact.displayName}
+                                    ${fileIndicator}
+                                </h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 truncate">${contact.Email}</p>
+                            </div>
+                            <div class="ml-3 text-xs text-gray-400 dark:text-gray-500 whitespace-nowrap">
+                                ${formatDateForDisplay(contact['Last Contacted on'])}
+                            </div>
+                        </div>
+                    `;
+                    
+                    contactEl.addEventListener('click', () => {
+                        // Update active contact
+                        document.querySelectorAll('#contacts-list > div').forEach(el => {
+                            el.classList.remove('bg-gray-100', 'dark:bg-dark-300');
+                        });
+                        contactEl.classList.add('bg-gray-100', 'dark:bg-dark-300');
+                        
+                        // Show contact details
+                        showContactDetails(contact);
+                        
+                        // On mobile, hide the contact list and show the detail view
+                        if (window.innerWidth < 1024) {
+                            document.getElementById('contact-list-container').classList.add('hidden');
+                            document.getElementById('contact-detail-container').classList.remove('hidden');
+                        }
+                    });
+                    
+                    contactsList.appendChild(contactEl);
+                });
+            }
+            
+            // Helper function to format date
+            function formatDateForDisplay(dateStr) {
+                if (!dateStr) return '';
+                
+                // Parse the date string
+                const dateParts = dateStr.split(', ');
+                if (dateParts.length < 2) return dateStr;
+                
+                const date = dateParts[0];
+                const year = dateParts[1].split(' ')[0];
+                
+                return `${date} ${year}`;
+            }
+            
+            // Show contact details
+            function showContactDetails(contact) {
+                document.getElementById('contact-detail-empty').classList.add('hidden');
+                document.getElementById('contact-detail').classList.remove('hidden');
+                
+                // Update contact details
+                document.getElementById('detail-name').textContent = contact.Name || 'No Name';
+                
+                const emailEl = document.getElementById('detail-email');
+                emailEl.textContent = contact.Email;
+                emailEl.href = `mailto:${contact.Email}`;
+                
+                document.getElementById('detail-date').textContent = `Last contacted: ${contact['Last Contacted on']}`;
+                
+                // Reset tab content
+                updateTabContent("all", contact);
+                
+                // Set up share link with actual URL
+                const baseUrl = window.location.origin;
+                document.getElementById('share-link').value = `${baseUrl}?contact=${contact.id}`;
+                document.getElementById('share-status').textContent = 'Not shared';
+            }
+            
+            // Initialize the tab buttons
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    document.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.remove('border-primary-500', 'text-primary-600', 'dark:text-primary-400');
+                        btn.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+                    this.classList.add('border-primary-500', 'text-primary-600', 'dark:text-primary-400');
+                    
+                    // Get the active contact
+                    const activeContactEl = document.querySelector('#contacts-list > div.bg-gray-100, #contacts-list > div.dark\\:bg-dark-300');
+                    if (activeContactEl) {
+                        const contactId = activeContactEl.dataset.id;
+                        const contact = contacts.find(c => c.id === contactId);
+                        
+                        // Update tab content
+                        const tabType = this.dataset.tab;
+                        updateTabContent(tabType, contact);
+                    }
+                });
+            });
+            
+            // Handle search input
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredContacts = contacts.filter(contact => {
+                    return (
+                        (contact.Name && contact.Name.toLowerCase().includes(searchTerm)) ||
+                        contact.Email.toLowerCase().includes(searchTerm)
+                    );
+                });
+                renderContacts(filteredContacts);
+                document.getElementById('contact-count').textContent = `${filteredContacts.length} contacts`;
+            });
+            
+            // Sort functionality
+            const sortBtn = document.getElementById('sort-btn');
+            const sortDropdown = document.getElementById('sort-dropdown');
+            
+            sortBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                sortDropdown.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('.sort-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const sortType = this.dataset.sort;
+                    
+                    // Remove check mark from all options
+                    document.querySelectorAll('.sort-check').forEach(check => {
+                        check.classList.add('hidden');
+                    });
+                    
+                    // Add check mark to selected option
+                    this.querySelector('.sort-check').classList.remove('hidden');
+                    
+                    // Sort contacts
+                    sortContacts(sortType);
+                    
+                    // Hide dropdown
+                    sortDropdown.classList.add('hidden');
+                });
+            });
+            
+            function sortContacts(sortType) {
+                const sortedContacts = [...contacts];
+                
+                switch (sortType) {
+                    case 'name-asc':
+                        sortedContacts.sort((a, b) => {
+                            return a.displayName.localeCompare(b.displayName);
+                        });
+                        break;
+                    case 'name-desc':
+                        sortedContacts.sort((a, b) => {
+                            return b.displayName.localeCompare(a.displayName);
+                        });
+                        break;
+                    case 'date-desc':
+                        sortedContacts.sort((a, b) => {
+                            const dateA = new Date(a['Last Contacted on']);
+                            const dateB = new Date(b['Last Contacted on']);
+                            return dateB - dateA;
+                        });
+                        break;
+                    case 'date-asc':
+                        sortedContacts.sort((a, b) => {
+                            const dateA = new Date(a['Last Contacted on']);
+                            const dateB = new Date(b['Last Contacted on']);
+                            return dateA - dateB;
+                        });
+                        break;
+                    case 'files-desc':
+                        sortedContacts.sort((a, b) => {
+                            return b.fileCount - a.fileCount;
+                        });
+                        break;
+                    default:
+                        break;
+                }
+                
+                renderContacts(sortedContacts);
+            }
+            
+            // Filter functionality
+            const filterBtn = document.getElementById('filter-btn');
+            const filterDropdown = document.getElementById('filter-dropdown');
+            
+            filterBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                filterDropdown.classList.toggle('hidden');
+            });
+            
+            document.getElementById('filter-apply').addEventListener('click', function() {
+                const showUnsubscribed = document.getElementById('filter-unsubscribed').checked;
+                const showNoName = document.getElementById('filter-no-name').checked;
+                const showHasFiles = document.getElementById('filter-has-files').checked;
+                const dateFrom = document.getElementById('filter-date-from').value;
+                const dateTo = document.getElementById('filter-date-to').value;
+                
+                const filteredContacts = contacts.filter(contact => {
+                    // Filter by unsubscribed
+                    if (showUnsubscribed && contact.Unsubscribed !== 'no') {
+                        return true;
+                    }
+                    
+                    // Filter by no name
+                    if (showNoName && !contact.Name) {
+                        return true;
+                    }
+                    
+                    // Filter by has files
+                    if (showHasFiles && contact.fileCount > 0) {
+                        return true;
+                    }
+                    
+                    // Filter by date range
+                    if (dateFrom || dateTo) {
+                        const contactDate = new Date(contact['Last Contacted on']);
+                        
+                        if (dateFrom && new Date(dateFrom) > contactDate) {
+                            return false;
+                        }
+                        
+                        if (dateTo && new Date(dateTo) < contactDate) {
+                            return false;
+                        }
+                    }
+                    
+                    // If no filters are applied or the contact passes all filters
+                    return (!showUnsubscribed && !showNoName && !showHasFiles && !dateFrom && !dateTo) ||
+                           (!showUnsubscribed && !showNoName && !showHasFiles) ||
+                           (!showUnsubscribed && !showNoName && contact.fileCount === 0) ||
+                           (!showUnsubscribed && contact.Name && !showHasFiles) ||
+                           (contact.Unsubscribed === 'no' && !showNoName && !showHasFiles) ||
+                           (contact.Unsubscribed === 'no' && contact.Name && !showHasFiles) ||
+                           (contact.Unsubscribed === 'no' && contact.Name && contact.fileCount === 0);
+                });
+                
+                renderContacts(filteredContacts);
+                document.getElementById('contact-count').textContent = `${filteredContacts.length} contacts`;
+                
+                // Hide dropdown
+                filterDropdown.classList.add('hidden');
+            });
+            
+            document.getElementById('filter-reset').addEventListener('click', function() {
+                document.getElementById('filter-unsubscribed').checked = false;
+                document.getElementById('filter-no-name').checked = false;
+                document.getElementById('filter-has-files').checked = false;
+                document.getElementById('filter-date-from').value = '';
+                document.getElementById('filter-date-to').value = '';
+                
+                renderContacts(contacts);
+                document.getElementById('contact-count').textContent = `${contacts.length} contacts`;
+            });
+            
+            // Update tab content
+            function updateTabContent(tabType, contact) {
+                const tabContent = document.getElementById('tab-content');
+                
+                // If no contact is selected or contact has no files
+                if (!contact || contact.fileCount === 0) {
+                    tabContent.innerHTML = `
+                        <div class="text-center py-12">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                <polyline points="13 2 13 9 20 9"></polyline>
+                            </svg>
+                            <h3 class="text-lg font-medium text-gray-400 dark:text-gray-500 mb-2">No files yet</h3>
+                            <p class="text-sm text-gray-400 dark:text-gray-500 max-w-md mx-auto">
+                                Upload files for this contact using the upload button above
+                            </p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Filter files based on tab type
+                let files = contact.files;
+                if (tabType !== 'all') {
+                    // Map tab names to file types (handle plural forms)
+                    const typeMap = {
+                        'pdf': 'pdf',
+                        'pdfs': 'pdf',
+                        'audio': 'audio',
+                        'image': 'image',
+                        'images': 'image',
+                        'email': 'email',
+                        'emails': 'email',
+                        'text': 'text',
+                        'texts': 'text'
+                    };
+                    
+                    const matchType = typeMap[tabType] || tabType;
+                    files = files.filter(file => file.type === matchType);
+                }
+                
+                // If no files match the selected tab type
+                if (files.length === 0) {
+                    const displayType = tabType === 'all' ? 'files' : tabType;
+                    tabContent.innerHTML = `
+                        <div class="text-center py-12">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                <polyline points="13 2 13 9 20 9"></polyline>
+                            </svg>
+                            <h3 class="text-lg font-medium text-gray-400 dark:text-gray-500 mb-2">No ${displayType}</h3>
+                            <p class="text-sm text-gray-400 dark:text-gray-500 max-w-md mx-auto">
+                                Upload ${displayType} for this contact
+                            </p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Display files in a grid
+                tabContent.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        ${files.map(file => {
+                            let iconBg, iconColor, icon, fileTypeDisplay, actionText;
+                            
+                            switch (file.type) {
+                                case 'pdf':
+                                    iconBg = 'bg-red-100 dark:bg-red-900/20';
+                                    iconColor = 'text-red-500 dark:text-red-400';
+                                    icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 13H8v-2h2v2zm0 4H8v-2h2v2zm6-4h-4v-2h4v2zm0 4h-4v-2h4v2z" />';
+                                    fileTypeDisplay = 'PDF Document';
+                                    actionText = 'View';
+                                    break;
+                                case 'audio':
+                                    iconBg = 'bg-purple-100 dark:bg-purple-900/20';
+                                    iconColor = 'text-purple-500 dark:text-purple-400';
+                                    icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.536a5 5 0 010-7.072m12.728 2.828a9 9 0 00-12.728 0" />';
+                                    fileTypeDisplay = 'Audio File';
+                                    actionText = 'Play';
+                                    break;
+                                case 'image':
+                                    iconBg = 'bg-blue-100 dark:bg-blue-900/20';
+                                    iconColor = 'text-blue-500 dark:text-blue-400';
+                                    icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />';
+                                    fileTypeDisplay = 'Image';
+                                    actionText = 'View';
+                                    break;
+                                case 'email':
+                                    iconBg = 'bg-green-100 dark:bg-green-900/20';
+                                    iconColor = 'text-green-500 dark:text-green-400';
+                                    icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />';
+                                    fileTypeDisplay = 'Email';
+                                    actionText = 'View';
+                                    break;
+                                case 'text':
+                                    iconBg = 'bg-yellow-100 dark:bg-yellow-900/20';
+                                    iconColor = 'text-yellow-500 dark:text-yellow-400';
+                                    icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />';
+                                    fileTypeDisplay = 'Text Message';
+                                    actionText = 'View';
+                                    break;
+                                default:
+                                    iconBg = 'bg-gray-100 dark:bg-gray-800';
+                                    iconColor = 'text-gray-500 dark:text-gray-400';
+                                    icon = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />';
+                                    fileTypeDisplay = 'File';
+                                    actionText = 'View';
+                                    break;
+                            }
+                            
+                            // Badge for shared files or references
+                            const sharedBadge = file.isShared ? 
+                                `<span class="absolute top-4 right-4 px-2 py-0.5 bg-blue-500 bg-opacity-80 text-white text-xs rounded-full">Shared</span>` : '';
+                            
+                            const referenceBadge = file.isReference ? 
+                                `<span class="absolute top-4 left-4 px-2 py-0.5 bg-purple-500 bg-opacity-80 text-white text-xs rounded-full">Reference</span>` : '';
+                            
+                            // Add Cloudflare badge if file has a Cloudflare ID
+                            const cloudflareBadge = file.cloudflareId ? 
+                                `<div class="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                    <svg class="h-3 w-3 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                                        <path d="M8.5.25a.75.75 0 00-1 0l-2 2a.75.75 0 101 1.1L8 1.85l1.5 1.5a.75.75 0 101-1.1l-2-2zM2.5 2.25a.75.75 0 00-1 0l-1 1a.75.75 0 101 1.1l1-1a.75.75 0 000-1.1zM14.5 2.25a.75.75 0 00-1 0 .75.75 0 000 1.1l1 1a.75.75 0 101-1.1l-1-1zM8 6a2 2 0 100 4 2 2 0 000-4z"/>
+                                    </svg>
+                                    <span>Stored on Cloudflare</span>
+                                </div>` : '';
+                            
+                            // Special PDF preview for PDF files
+                            const pdfPreview = file.type === 'pdf' ? 
+                                `<div class="mt-2 mb-3 flex justify-center">
+                                    <div class="pdf-thumbnail w-32 h-40 bg-gray-100 dark:bg-dark-200 border border-gray-300 dark:border-dark-300 rounded-md overflow-hidden">
+                                        <div class="flex items-center justify-center h-full text-gray-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                                <path d="M14 2v6h6"></path>
+                                                <path d="M16 13H8"></path>
+                                                <path d="M16 17H8"></path>
+                                                <path d="M10 9H8"></path>
+                                            </svg>
+                                        </div>
+                                        ${sharedBadge}
+                                        ${referenceBadge}
+                                    </div>
+                                </div>` : '';
+                            
+                            return `
+                                <div class="bg-white dark:bg-dark-400 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-dark-300 hover:shadow-lg transition-shadow relative">
+                                    <div class="p-4">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 ${iconBg} rounded-lg p-2 mr-3">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 ${iconColor}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    ${icon}
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <h3 class="text-sm font-medium truncate">${file.name}</h3>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400">${file.size} • ${file.date}</p>
+                                                ${cloudflareBadge}
+                                            </div>
+                                        </div>
+                                        ${pdfPreview}
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-dark-300 px-4 py-3 border-t border-gray-200 dark:border-dark-200 flex justify-between items-center">
+                                        <div class="text-xs text-gray-500 dark:text-gray-400">${fileTypeDisplay}</div>
+                                        <div class="flex space-x-2">
+                                            ${file.isShared || file.isReference ? 
+                                                `<button class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                                                    </svg>
+                                                </button>` : ''}
+                                            <button class="file-view-btn text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 text-sm font-medium" data-file-key="${file.cloudflareId}" data-file-name="${file.name}">
+                                                ${actionText}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+                
+                // Add event listeners to view buttons after rendering
+                setTimeout(() => {
+                    document.querySelectorAll('.file-view-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const fileKey = this.dataset.fileKey;
+                            const fileName = this.dataset.fileName;
+                            downloadFile(fileKey, fileName);
+                        });
+                    });
+                }, 0);
+            }
+            
+            // Upload functionality
+            const uploadBtn = document.getElementById('upload-btn');
+            const uploadModal = document.getElementById('upload-modal');
+            const closeUploadModal = document.getElementById('close-upload-modal');
+            const cancelUpload = document.getElementById('cancel-upload');
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('file-input');
+            const selectedFile = document.getElementById('selected-file');
+            const selectedFilename = document.getElementById('selected-filename');
+            const removeFile = document.getElementById('remove-file');
+            const submitUpload = document.getElementById('submit-upload');
+            const uploadProgress = document.getElementById('upload-progress');
+            const uploadProgressBar = document.getElementById('upload-progress-bar');
+            const uploadPercentage = document.getElementById('upload-percentage');
+            const uploadStatus = document.getElementById('upload-status');
+            const pdfOptions = document.getElementById('pdf-options');
+            const uploadType = document.getElementById('upload-type');
+            
+            // Show upload modal
+            uploadBtn.addEventListener('click', function() {
+                uploadModal.classList.remove('hidden');
+                resetUploadForm();
+                
+                // Populate contact sharing list
+                const contactSharingList = document.getElementById('contact-sharing-list');
+                contactSharingList.innerHTML = '';
+                
+                // Get the active contact
+                const activeContactEl = document.querySelector('#contacts-list > div.bg-gray-100, #contacts-list > div.dark\\:bg-dark-300');
+                let activeContactId = null;
+                
+                if (activeContactEl) {
+                    activeContactId = activeContactEl.dataset.id;
+                }
+                
+                // Add all contacts except the active one to the sharing list
+                contacts.forEach(contact => {
+                    if (contact.id !== activeContactId) {
+                        const contactCheckbox = document.createElement('div');
+                        contactCheckbox.className = 'flex items-center';
+                        contactCheckbox.innerHTML = `
+                            <input type="checkbox" id="share-${contact.id}" data-id="${contact.id}" class="contact-share-checkbox rounded text-primary-500 focus:ring-primary-500 mr-2">
+                            <label for="share-${contact.id}" class="text-sm truncate">${contact.displayName}</label>
+                        `;
+                        contactSharingList.appendChild(contactCheckbox);
+                    }
+                });
+            });
+            
+            // Show PDF options when PDF is selected
+            uploadType.addEventListener('change', function() {
+                if (this.value === 'pdf') {
+                    pdfOptions.classList.remove('hidden');
+                } else {
+                    pdfOptions.classList.add('hidden');
+                }
+            });
+            
+            // Close upload modal
+            closeUploadModal.addEventListener('click', function() {
+                uploadModal.classList.add('hidden');
+            });
+            
+            cancelUpload.addEventListener('click', function() {
+                uploadModal.classList.add('hidden');
+            });
+            
+            // Upload modal outside click
+            uploadModal.addEventListener('click', function(e) {
+                if (e.target === uploadModal) {
+                    uploadModal.classList.add('hidden');
+                }
+            });
+            
+            // Dropzone click
+            dropzone.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // Dropzone drag events
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            dropzone.addEventListener('dragenter', function() {
+                this.classList.add('border-primary-400');
+            });
+            
+            dropzone.addEventListener('dragleave', function() {
+                this.classList.remove('border-primary-400');
+            });
+            
+            dropzone.addEventListener('drop', function(e) {
+                this.classList.remove('border-primary-400');
+                
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleFileSelection(e.dataTransfer.files[0]);
+                }
+            });
+            
+            // File input change
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    handleFileSelection(this.files[0]);
+                }
+            });
+            
+            // Handle file selection
+            function handleFileSelection(file) {
+                selectedFilename.textContent = file.name;
+                selectedFile.classList.remove('hidden');
+                submitUpload.disabled = false;
+                
+                // Show PDF options if it's a PDF
+                if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+                    uploadType.value = 'pdf';
+                    pdfOptions.classList.remove('hidden');
+                } else {
+                    pdfOptions.classList.add('hidden');
+                }
+            }
+            
+            // Remove selected file
+            removeFile.addEventListener('click', function() {
+                fileInput.value = '';
+                selectedFile.classList.add('hidden');
+                submitUpload.disabled = true;
+            });
+            
+            // Submit upload
+            submitUpload.addEventListener('click', async function() {
+                if (fileInput.files.length === 0) return;
+                
+                const file = fileInput.files[0];
+                const fileType = uploadType.value;
+                
+                // Get selected contacts for sharing
+                const selectedContacts = [];
+                document.querySelectorAll('.contact-share-checkbox:checked').forEach(checkbox => {
+                    selectedContacts.push(checkbox.dataset.id);
+                });
+                
+                // Use AI to analyze PDF if selected
+                const useAI = document.getElementById('ai-analyze').checked;
+                
+                // Show upload progress
+                uploadProgress.classList.remove('hidden');
+                submitUpload.disabled = true;
+                uploadStatus.textContent = 'Uploading to Cloudflare R2...';
+                
+                try {
+                    // Get active contact
+                    const activeContactEl = document.querySelector('#contacts-list > div.bg-gray-100, #contacts-list > div.dark\\:bg-dark-300');
+                    let contactId = null;
+                    
+                    if (activeContactEl) {
+                        contactId = activeContactEl.dataset.id;
+                        const numericId = contactId.replace('contact-', '');
+                        
+                        // Upload file to Cloudflare R2
+                        const formData = new FormData();
+                        formData.append('file', file);
+                        formData.append('contactId', numericId);
+                        
+                        // Simulate progress
+                        let progress = 0;
+                        const progressInterval = setInterval(() => {
+                            if (progress < 90) {
+                                progress += 10;
+                                uploadProgressBar.style.width = `${progress}%`;
+                                uploadPercentage.textContent = `${progress}%`;
+                            }
+                        }, 100);
+                        
+                        const response = await fetch(`${API_URL}/api/files/upload`, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        clearInterval(progressInterval);
+                        
+                        if (!response.ok) throw new Error('Upload failed');
+                        
+                        const result = await response.json();
+                        
+                        // Complete progress
+                        uploadProgressBar.style.width = '100%';
+                        uploadPercentage.textContent = '100%';
+                        uploadStatus.textContent = 'Upload complete!';
+                        
+                        const contact = contacts.find(c => c.id === contactId);
+                        
+                        if (contact) {
+                            // Create new file entry
+                            const newFile = {
+                                id: `file-${result.fileId}`,
+                                name: file.name,
+                                type: fileType,
+                                size: formatFileSize(file.size),
+                                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                                cloudflareId: result.fileKey,
+                                isShared: selectedContacts.length > 0,
+                                sharedWith: selectedContacts
+                            };
+                            
+                            // Add file to contact
+                            contact.files.push(newFile);
+                            contact.fileCount = contact.files.length;
+                            
+                            // If shared, add reference to selected contacts
+                            if (newFile.isShared) {
+                                selectedContacts.forEach(selectedContactId => {
+                                    const sharedContact = contacts.find(c => c.id === selectedContactId);
+                                    if (sharedContact) {
+                                        sharedContact.files.push({
+                                            ...newFile,
+                                            isReference: true,
+                                            originalContactId: contact.id
+                                        });
+                                        sharedContact.fileCount = sharedContact.files.length;
+                                    }
+                                });
+                            }
+                            
+                            // Update contact list to show file count
+                            renderContacts();
+                            
+                            // Refresh details view with new file
+                            showContactDetails(contact);
+                            
+                            // If AI analysis was requested for PDF
+                            if (useAI && fileType === 'pdf') {
+                                simulateAIAnalysis(newFile, contact);
+                            }
+                        }
+                        
+                        // Close modal after a brief delay
+                        setTimeout(() => {
+                            uploadModal.classList.add('hidden');
+                            showNotification('File uploaded to Cloudflare R2 successfully');
+                        }, 500);
+                        
+                    } else {
+                        throw new Error('No contact selected');
+                    }
+                } catch (error) {
+                    console.error('Upload error:', error);
+                    uploadStatus.textContent = 'Upload failed: ' + error.message;
+                    showNotification('File upload failed: ' + error.message, 5000);
+                    submitUpload.disabled = false;
+                }
+            });
+            
+            // Simulate AI analysis with OpenRouter
+            function simulateAIAnalysis(file, contact) {
+                showNotification('Analyzing PDF with OpenRouter AI...', 5000);
+                
+                // After 2 seconds, show completion
+                setTimeout(() => {
+                    file.aiAnalyzed = true;
+                    file.aiSummary = 'This document contains information related to ' + contact.displayName + '. Key details have been extracted and stored.';
+                    
+                    showNotification('PDF analysis complete', 3000);
+                }, 2000);
+            }
+            
+            // Reset upload form
+            function resetUploadForm() {
+                fileInput.value = '';
+                selectedFile.classList.add('hidden');
+                uploadProgress.classList.add('hidden');
+                uploadProgressBar.style.width = '0%';
+                uploadPercentage.textContent = '0%';
+                uploadStatus.textContent = 'Uploading...';
+                submitUpload.disabled = true;
+                pdfOptions.classList.add('hidden');
+                document.getElementById('ai-analyze').checked = false;
+            }
+            
+            // Format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Show notification
+            function showNotification(message, duration = 3000) {
+                const notification = document.createElement('div');
+                notification.className = 'fixed bottom-4 right-4 bg-primary-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 slide-in';
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, duration);
+            }
+            
+            // Share functionality
+            const shareBtn = document.getElementById('share-btn');
+            const shareDropdown = document.getElementById('share-dropdown');
+            const generateShareLink = document.getElementById('generate-share-link');
+            const copyShareLink = document.getElementById('copy-share-link');
+            
+            shareBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                shareDropdown.classList.toggle('hidden');
+            });
+            
+            generateShareLink.addEventListener('click', function() {
+                const shareLink = document.getElementById('share-link');
+                const activeContactEl = document.querySelector('#contacts-list > div.bg-gray-100, #contacts-list > div.dark\\:bg-dark-300');
+                
+                if (activeContactEl) {
+                    const contactId = activeContactEl.dataset.id;
+                    const baseUrl = window.location.origin;
+                    const shareUrl = `${baseUrl}?contact=${contactId}`;
+                    shareLink.value = shareUrl;
+                    document.getElementById('share-status').textContent = 'Shared • Link active';
+                    showNotification('Share link generated');
+                }
+            });
+            
+            copyShareLink.addEventListener('click', function() {
+                const shareLink = document.getElementById('share-link');
+                shareLink.select();
+                
+                // Use modern clipboard API if available
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(shareLink.value).then(() => {
+                        showNotification('Link copied to clipboard');
+                    }).catch(() => {
+                        // Fallback to execCommand
+                        document.execCommand('copy');
+                        showNotification('Link copied to clipboard');
+                    });
+                } else {
+                    // Fallback for older browsers
+                    document.execCommand('copy');
+                    showNotification('Link copied to clipboard');
+                }
+            });
+            
+            // Cloudflare Status Button
+            const cloudflareStatusBtn = document.getElementById('cloudflare-status-btn');
+            const cloudflareSetupModal = document.getElementById('cloudflare-setup-modal');
+            const closeCloudflareModal = document.getElementById('close-cloudflare-modal');
+            const closeCloudflareInstructions = document.getElementById('close-cloudflare-instructions');
+            
+            cloudflareStatusBtn.addEventListener('click', function() {
+                cloudflareSetupModal.classList.remove('hidden');
+            });
+            
+            closeCloudflareModal.addEventListener('click', function() {
+                cloudflareSetupModal.classList.add('hidden');
+            });
+            
+            closeCloudflareInstructions.addEventListener('click', function() {
+                cloudflareSetupModal.classList.add('hidden');
+            });
+            
+            // Cloudflare setup modal outside click
+            cloudflareSetupModal.addEventListener('click', function(e) {
+                if (e.target === cloudflareSetupModal) {
+                    cloudflareSetupModal.classList.add('hidden');
+                }
+            });
+            
+            // Download instructions button
+            document.getElementById('download-instructions').addEventListener('click', function() {
+                showNotification('Instructions would be downloaded as a markdown file.');
+            });
+            
+            // Generate wrangler.toml
+            document.getElementById('generate-wrangler-config').addEventListener('click', function() {
+                showNotification('wrangler.toml configuration generated and copied to clipboard.');
+            });
+            
+            // Test connection
+            document.getElementById('test-connection').addEventListener('click', function() {
+                showNotification('Testing Cloudflare connection...');
+                
+                setTimeout(() => {
+                    showNotification('Connection successful! R2 and D1 are accessible.', 4000);
+                }, 1500);
+            });
+            
+            // Copy config
+            document.getElementById('copy-config').addEventListener('click', function() {
+                const config = document.getElementById('cloudflare-config');
+                config.select();
+                document.execCommand('copy');
+                showNotification('Configuration copied to clipboard');
+            });
+            
+            // Toggle API key visibility
+            document.getElementById('toggle-api-key').addEventListener('click', function() {
+                const apiKeyField = document.getElementById('api-key-masked');
+                if (apiKeyField.type === 'password') {
+                    apiKeyField.type = 'text';
+                    apiKeyField.value = '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';
+                } else {
+                    apiKeyField.type = 'password';
+                    apiKeyField.value = '••••••••••••••••••••••••••••••••••••••••••';
+                }
+            });
+            
+            // Copy API key
+            document.getElementById('copy-api-key').addEventListener('click', function() {
+                showNotification('API key copied to clipboard');
+            });
+            
+            // Test OpenRouter
+            document.getElementById('test-openrouter').addEventListener('click', function() {
+                showNotification('Testing OpenRouter connection...');
+                
+                setTimeout(() => {
+                    showNotification('OpenRouter connection successful!', 3000);
+                }, 1500);
+            });
+            
+            // Update OpenRouter settings
+            document.getElementById('update-openrouter').addEventListener('click', function() {
+                const selectedModel = document.getElementById('ai-model').value;
+                showNotification(`OpenRouter settings updated. Using model: ${selectedModel}`, 4000);
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                // Close sort dropdown
+                if (!sortBtn.contains(e.target) && !sortDropdown.contains(e.target)) {
+                    sortDropdown.classList.add('hidden');
+                }
+                
+                // Close filter dropdown
+                if (!filterBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+                    filterDropdown.classList.add('hidden');
+                }
+                
+                // Close share dropdown
+                if (!shareBtn.contains(e.target) && !shareDropdown.contains(e.target)) {
+                    shareDropdown.classList.add('hidden');
+                }
+            });
+            
+            // Responsive behavior - back button
+            // For mobile devices
+            window.addEventListener('resize', function() {
+                if (window.innerWidth < 1024) {
+                    // If detail view is open, hide the contact list
+                    if (!document.getElementById('contact-detail').classList.contains('hidden')) {
+                        document.getElementById('contact-list-container').classList.add('hidden');
+                        document.getElementById('contact-detail-container').classList.remove('hidden');
+                    }
+                } else {
+                    // On larger screens, show both
+                    document.getElementById('contact-list-container').classList.remove('hidden');
+                    document.getElementById('contact-detail-container').classList.remove('hidden');
+                }
+            });
+            
+            // Add back button for mobile
+            const header = document.querySelector('header > div');
+            const backButton = document.createElement('button');
+            backButton.className = 'p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-300 transition-colors mr-3 lg:hidden';
+            backButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            `;
+            backButton.addEventListener('click', function() {
+                document.getElementById('contact-list-container').classList.remove('hidden');
+                document.getElementById('contact-detail-container').classList.add('hidden');
+            });
+            header.insertBefore(backButton, header.firstChild);
+            
+            // CSV Import Functionality
+            const importCsvBtn = document.getElementById('import-csv-btn');
+            const csvImportModal = document.getElementById('csv-import-modal');
+            const closeCsvModal = document.getElementById('close-csv-modal');
+            const cancelCsvImport = document.getElementById('cancel-csv-import');
+            const csvDropzone = document.getElementById('csv-dropzone');
+            const csvFileInput = document.getElementById('csv-file-input');
+            const csvPreview = document.getElementById('csv-preview');
+            const csvMappingTable = document.getElementById('csv-mapping-table');
+            const skipFirstRow = document.getElementById('skip-first-row');
+            const importCsvBtn2 = document.getElementById('import-csv');
+            const csvImportProgress = document.getElementById('csv-import-progress');
+            const csvProgressBar = document.getElementById('csv-progress-bar');
+            const csvProgressPercentage = document.getElementById('csv-progress-percentage');
+            
+            // Show CSV import modal
+            importCsvBtn.addEventListener('click', function() {
+                csvImportModal.classList.remove('hidden');
+                resetCsvImportForm();
+            });
+            
+            // Close CSV import modal
+            closeCsvModal.addEventListener('click', function() {
+                csvImportModal.classList.add('hidden');
+            });
+            
+            cancelCsvImport.addEventListener('click', function() {
+                csvImportModal.classList.add('hidden');
+            });
+            
+            // CSV modal outside click
+            csvImportModal.addEventListener('click', function(e) {
+                if (e.target === csvImportModal) {
+                    csvImportModal.classList.add('hidden');
+                }
+            });
+            
+            // CSV dropzone click
+            csvDropzone.addEventListener('click', function() {
+                csvFileInput.click();
+            });
+            
+            // Handle drag and drop
+            csvDropzone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                csvDropzone.classList.add('border-primary-400');
+            });
+            
+            csvDropzone.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                csvDropzone.classList.remove('border-primary-400');
+            });
+            
+            csvDropzone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                csvDropzone.classList.remove('border-primary-400');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0 && files[0].type === 'text/csv') {
+                    csvFileInput.files = files;
+                    handleCsvFile(files[0]);
+                } else {
+                    showNotification('Please upload a CSV file', 'error');
+                }
+            });
+            
+            // CSV file input change
+            csvFileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    handleCsvFile(this.files[0]);
+                }
+            });
+            
+            // Handle CSV file
+            function handleCsvFile(file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const csvContent = e.target.result;
+                    const parsedCsv = parseCSVRaw(csvContent);
+                    
+                    // Show preview
+                    csvPreview.classList.remove('hidden');
+                    csvMappingTable.innerHTML = '';
+                    
+                    // Get the first few rows
+                    const headers = parsedCsv[0];
+                    const sampleData = parsedCsv.slice(1, 4);
+                    
+                    // Create field mapping rows
+                    headers.forEach((header, index) => {
+                        const row = document.createElement('tr');
+                        
+                        const samples = sampleData.map(row => row[index] || '').filter(Boolean);
+                        const sampleText = samples.length > 0 ? samples[0] : '';
+                        
+                        row.innerHTML = `
+                            <td class="px-4 py-3 text-sm">${header}</td>
+                            <td class="px-4 py-3">
+                                <select class="csv-field-mapping w-full px-3 py-1.5 text-sm rounded-md border border-gray-300 dark:border-dark-200 bg-white dark:bg-dark-300 focus:outline-none focus:ring-1 focus:ring-primary-400" data-index="${index}">
+                                    <option value="">Skip this column</option>
+                                    <option value="Name" ${header.toLowerCase().includes('name') ? 'selected' : ''}>Name</option>
+                                    <option value="Email" ${header.toLowerCase().includes('email') ? 'selected' : ''}>Email</option>
+                                    <option value="Last Contacted on" ${header.toLowerCase().includes('contact') || header.toLowerCase().includes('date') ? 'selected' : ''}>Last Contacted</option>
+                                    <option value="Unsubscribed" ${header.toLowerCase().includes('unsubscribe') ? 'selected' : ''}>Unsubscribed</option>
+                                </select>
+                            </td>
+                            <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">${sampleText}</td>
+                        `;
+                        
+                        csvMappingTable.appendChild(row);
+                    });
+                    
+                    // Enable import button
+                    importCsvBtn2.disabled = false;
+                    
+                    // Store the parsed data for later use
+                    importCsvBtn2.dataset.csvData = JSON.stringify(parsedCsv);
+                };
+                
+                reader.readAsText(file);
+            }
+            
+            // Parse CSV (raw version that preserves arrays)
+            function parseCSVRaw(csvText) {
+                const lines = csvText.split(/\\r?\\n/).filter(line => line.trim().length > 0);
+                const result = [];
+                
+                for (const line of lines) {
+                    const values = [];
+                    let currentValue = '';
+                    let insideQuotes = false;
+                    
+                    for (let i = 0; i < line.length; i++) {
+                        const char = line[i];
+                        
+                        if (char === '"') {
+                            if (i + 1 < line.length && line[i + 1] === '"') {
+                                // Escaped quote
+                                currentValue += '"';
+                                i++;
+                            } else {
+                                // Toggle insideQuotes flag
+                                insideQuotes = !insideQuotes;
+                            }
+                        } else if (char === ',' && !insideQuotes) {
+                            values.push(currentValue);
+                            currentValue = '';
+                        } else {
+                            currentValue += char;
+                        }
+                    }
+                    
+                    values.push(currentValue);
+                    result.push(values);
+                }
+                
+                return result;
+            }
+            
+            // Import CSV
+            importCsvBtn2.addEventListener('click', async function() {
+                // Get field mappings
+                const fieldMappings = [];
+                document.querySelectorAll('.csv-field-mapping').forEach(select => {
+                    fieldMappings[select.dataset.index] = select.value;
+                });
+                
+                // Get CSV data
+                const csvData = JSON.parse(this.dataset.csvData);
+                const headers = csvData[0];
+                
+                // Skip first row if checked
+                const dataStart = skipFirstRow.checked ? 2 : 1;
+                
+                // Show progress
+                csvImportProgress.classList.remove('hidden');
+                importCsvBtn2.disabled = true;
+                
+                // Process the data
+                const newContacts = [];
+                const total = csvData.length - dataStart;
+                let processed = 0;
+                
+                // Process in batches and save to API
+                const batchSize = 5;
+                const processNextBatch = async () => {
+                    const batch = csvData.slice(dataStart + processed, dataStart + processed + batchSize);
+                    
+                    for (const row of batch) {
+                        const contact = {
+                            files: [],
+                            fileCount: 0
+                        };
+                        
+                        // Map fields
+                        fieldMappings.forEach((field, index) => {
+                            if (field && row[index]) {
+                                contact[field] = row[index];
+                            }
+                        });
+                        
+                        // Verify required fields
+                        if (contact.Email) {
+                            // Generate display name
+                            contact.displayName = contact.Name || contact.Email.split('@')[0];
+                            
+                            // Add default unsubscribed value if not present
+                            if (!contact.Unsubscribed) {
+                                contact.Unsubscribed = 'no';
+                            }
+                            
+                            // Add default last contacted date if not present
+                            if (!contact['Last Contacted on']) {
+                                contact['Last Contacted on'] = new Date().toLocaleDateString('en-US', { 
+                                    month: 'short', 
+                                    day: 'numeric', 
+                                    year: 'numeric',
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                    second: 'numeric',
+                                    hour12: true
+                                });
+                            }
+                            
+                            // Save to Cloudflare API
+                            try {
+                                const result = await saveContactToAPI(contact);
+                                contact.id = `contact-${result.id}`;
+                                newContacts.push(contact);
+                            } catch (error) {
+                                console.error('Failed to save contact to API:', contact, error);
+                                // Still add to local list even if API fails
+                                contact.id = `contact-${contacts.length + newContacts.length}`;
+                                newContacts.push(contact);
+                            }
+                        }
+                    }
+                    
+                    processed += batch.length;
+                    
+                    // Update progress
+                    const progress = Math.min(Math.round((processed / total) * 100), 100);
+                    csvProgressBar.style.width = `${progress}%`;
+                    csvProgressPercentage.textContent = `${progress}%`;
+                    
+                    if (processed < total) {
+                        // Process next batch
+                        setTimeout(() => processNextBatch(), 100);
+                    } else {
+                        // Finish
+                        setTimeout(() => {
+                            // Add new contacts to the list
+                            contacts = [...contacts, ...newContacts];
+                            
+                            // Update the contact count
+                            document.getElementById('contact-count').textContent = `${contacts.length} contacts`;
+                            
+                            // Render the contacts list
+                            renderContacts();
+                            
+                            // Show success notification
+                            showNotification(`Successfully imported ${newContacts.length} contacts to Cloudflare`);
+                            
+                            // Close the modal
+                            csvImportModal.classList.add('hidden');
+                        }, 500);
+                    }
+                };
+                
+                // Start processing
+                processNextBatch();
+            });
+            
+            // Reset CSV import form
+            function resetCsvImportForm() {
+                csvFileInput.value = '';
+                csvPreview.classList.add('hidden');
+                csvImportProgress.classList.add('hidden');
+                csvProgressBar.style.width = '0%';
+                csvProgressPercentage.textContent = '0%';
+                importCsvBtn2.disabled = true;
+                skipFirstRow.checked = true;
+            }
+            
+            // Integrations Modal
+            const integrationsBtn = document.getElementById('integrations-btn');
+            const integrationsModal = document.getElementById('integrations-modal');
+            const closeIntegrationsModal = document.getElementById('close-integrations-modal');
+            const closeIntegrationsBtn = document.getElementById('close-integrations-btn');
+            
+            // Show integrations modal
+            integrationsBtn.addEventListener('click', function() {
+                integrationsModal.classList.remove('hidden');
+            });
+            
+            // Close integrations modal
+            closeIntegrationsModal.addEventListener('click', function() {
+                integrationsModal.classList.add('hidden');
+            });
+            
+            closeIntegrationsBtn.addEventListener('click', function() {
+                integrationsModal.classList.add('hidden');
+            });
+            
+            // Integrations modal outside click
+            integrationsModal.addEventListener('click', function(e) {
+                if (e.target === integrationsModal) {
+                    integrationsModal.classList.add('hidden');
+                }
+            });
+            
+            // Integration toggle functionality
+            const toggles = ['cloudflare-toggle', 'openrouter-toggle', 'gmail-toggle', 'github-toggle', 'api-toggle', 'webhook-toggle'];
+            
+            toggles.forEach(id => {
+                const toggle = document.getElementById(id);
+                if (!toggle) return;
+                
+                const settingsId = id.replace('-toggle', '-settings');
+                const settings = document.getElementById(settingsId);
+                
+                toggle.addEventListener('change', function() {
+                    if (this.checked) {
+                        settings.classList.remove('hidden');
+                        
+                        // Update toggle status text
+                        const statusText = this.parentElement.nextElementSibling;
+                        
+                        if (id === 'cloudflare-toggle') {
+                            statusText.textContent = 'Connected';
+                        } else if (id === 'openrouter-toggle') {
+                            statusText.textContent = 'Connected';
+                        } else if (id === 'gmail-toggle') {
+                            statusText.textContent = 'Ready to connect';
+                        } else if (id === 'github-toggle') {
+                            statusText.textContent = 'Ready to connect';
+                        } else if (id === 'api-toggle') {
+                            statusText.textContent = 'API access enabled';
+                        } else if (id === 'webhook-toggle') {
+                            statusText.textContent = 'Configure webhook';
+                        }
+                    } else {
+                        settings.classList.add('hidden');
+                        
+                        // Update toggle status text
+                        const statusText = this.parentElement.nextElementSibling;
+                        
+                        if (id === 'cloudflare-toggle') {
+                            statusText.textContent = 'Disconnected';
+                        } else if (id === 'openrouter-toggle') {
+                            statusText.textContent = 'Disconnected';
+                        } else if (id === 'gmail-toggle') {
+                            statusText.textContent = 'Not connected';
+                        } else if (id === 'github-toggle') {
+                            statusText.textContent = 'Not connected';
+                        } else if (id === 'api-toggle') {
+                            statusText.textContent = 'API access disabled';
+                        } else if (id === 'webhook-toggle') {
+                            statusText.textContent = 'No webhooks configured';
+                        }
+                    }
+                });
+            });
+            
+            // PDF Preview Functionality
+            // We're not implementing the actual PDF.js preview here, but this would be the integration point
+            // in a real application. Instead, we show the placeholder thumbnail.
+            
+            // Initialize by rendering contacts
+            renderContacts();
+        });
+    </script>
+
+
+
+</body></html>

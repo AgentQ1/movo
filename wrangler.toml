@@ -1,0 +1,25 @@
+name = "adcs-worker"
+main = "src/index.js"
+compatibility_date = "2024-12-20"
+
+# Replace with your Cloudflare Account ID (find it in your Cloudflare dashboard)
+account_id = "429a853a6dd11c1a13e857db35424943"
+
+# Static assets (newer approach)
+assets = { directory = "./public", binding = "ASSETS" }
+
+# R2 Bucket binding
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "central-files"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "D1_DATABASE"
+database_name = "ADCS_DB"
+database_id = "bd26283b-40be-4560-bdf8-3dc2110cdc39"
+
+# KV Namespace binding
+[[kv_namespaces]]
+binding = "KV_NAMESPACE"
+id = "9cdf7de635d34efb803d916d86d38369"
